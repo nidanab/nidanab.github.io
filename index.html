@@ -1,0 +1,1637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nidan Basheer · Product Portfolio</title>
+<meta name="description" content="Product case studies by Nidan Basheer: parking discovery, meeting coordination, building mobility, and one very serious nap product.">
+<meta property="og:title" content="Nidan Basheer · Designing smoother journeys">
+<meta property="og:description" content="Product case studies on removing friction between what people intend and what they manage to do.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Overpass:wght@400;600;700;800;900&family=Overpass+Mono:wght@400;600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,400&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: highway wayfinding. Featured work hangs on a sign gantry; every case study is a route with eight stops. */
+:root{
+  --paper:#f2f3ef;
+  --card:#ffffff;
+  --ink:#121816;
+  --muted:#59625e;
+  --line:#d6dad4;
+  --route:#0d6b45;
+  --route-ink:#ffffff;
+  --friction:#b97d06;
+  --friction-soft:#f6ebd2;
+  --sign:#0e6a44;
+  --sign-ink:#ffffff;
+  --detour:#e39b14;
+  --shadow:0 22px 50px -30px rgba(10,30,20,.45);
+  --display:"Overpass","Arial Narrow",Arial,sans-serif;
+  --mono:"Overpass Mono",ui-monospace,Menlo,Consolas,monospace;
+  --body:"Literata",Georgia,"Times New Roman",serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0f1312; --card:#171c1a; --ink:#e7ebe6; --muted:#9aa49f; --line:#2a322e;
+    --route:#38b67a; --route-ink:#04140c; --friction:#efb440; --friction-soft:#2b2412;
+    --shadow:0 22px 50px -30px rgba(0,0,0,.9);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0f1312; --card:#171c1a; --ink:#e7ebe6; --muted:#9aa49f; --line:#2a322e;
+  --route:#38b67a; --route-ink:#04140c; --friction:#efb440; --friction-soft:#2b2412;
+  --shadow:0 22px 50px -30px rgba(0,0,0,.9);
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:var(--route);text-underline-offset:3px;text-decoration-thickness:1.5px}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--friction);outline-offset:3px;border-radius:6px}
+h1,h2,h3,h4{font-family:var(--display);line-height:1.04;text-wrap:balance;margin:0}
+p{margin:0 0 14px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+.mono{font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase}
+.muted{color:var(--muted)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---------- top bar ---------- */
+.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:900;font-size:18px;color:var(--ink);text-decoration:none;letter-spacing:-.01em}
+.brand i{display:inline-block;width:22px;height:22px;border-radius:5px;background:var(--sign);box-shadow:inset 0 0 0 2px var(--sign),inset 0 0 0 3.5px var(--sign-ink)}
+.top nav{display:flex;align-items:center;gap:22px}
+.top nav a{color:var(--muted);text-decoration:none}
+.top nav a:hover{color:var(--ink)}
+.theme-btn{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--line);background:var(--card);cursor:pointer;display:grid;place-items:center}
+.theme-btn svg{width:16px;height:16px}
+@media (max-width:760px){.top nav a.hide-sm{display:none}}
+
+/* ---------- progress rail ---------- */
+.rail{position:fixed;left:26px;top:50%;transform:translateY(-50%);z-index:15;display:none}
+.rail ol{list-style:none;margin:0;padding:0;position:relative;display:grid;gap:22px}
+.rail ol::before{content:"";position:absolute;left:6px;top:6px;bottom:6px;width:3px;background:var(--line);border-radius:2px}
+.rail a{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--muted);position:relative}
+.rail .d{width:15px;height:15px;border-radius:50%;background:var(--paper);border:3px solid var(--line);transition:border-color .2s,background .2s}
+.rail .l{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;opacity:0;transform:translateX(-4px);transition:opacity .2s,transform .2s}
+.rail a:hover .l,.rail a.on .l{opacity:1;transform:none}
+.rail a.on{color:var(--ink)}
+.rail a.on .d{border-color:var(--route);background:var(--route)}
+@media (min-width:1360px){.rail{display:block}}
+
+/* ---------- hero ---------- */
+.hero{padding:84px 0 28px}
+.hero .eyebrow{color:var(--muted);margin-bottom:22px;display:flex;flex-wrap:wrap;gap:8px 18px}
+.hero h1{font-weight:900;font-size:clamp(52px,9vw,118px);letter-spacing:-.04em;line-height:.95}
+.hero h1 em{font-style:normal;color:var(--route)}
+.lede{max-width:44ch;font-size:clamp(19px,2vw,22px);line-height:1.5;margin:30px 0 0}
+.routebar{margin:56px 0 0}
+.routebar svg{width:100%;height:auto;display:block;overflow:visible}
+.rb-detour{fill:none;stroke:var(--friction);stroke-width:4;stroke-linecap:round;stroke-dasharray:2 11;animation:detour-in .9s ease-out both, detour-fade .7s 1.7s ease-out forwards}
+.rb-main{fill:none;stroke:var(--route);stroke-width:12;stroke-linecap:round;stroke-dasharray:960;animation:draw 1.1s .6s cubic-bezier(.6,.05,.2,1) both}
+.rb-stop{fill:var(--paper);stroke:var(--route);stroke-width:6}
+.rb-end{fill:var(--route)}
+.routebar text{font-family:var(--mono);font-size:13px;letter-spacing:.07em;text-transform:uppercase;fill:var(--muted)}
+.routebar text.big{font-family:var(--display);font-weight:800;font-size:23px;letter-spacing:-.01em;text-transform:none;fill:var(--ink)}
+@keyframes draw{from{stroke-dashoffset:960}to{stroke-dashoffset:0}}
+@keyframes detour-in{from{opacity:0}to{opacity:1}}
+@keyframes detour-fade{to{opacity:.28}}
+.rb-cap{display:none;justify-content:space-between;gap:12px;margin-top:10px;font-family:var(--display);font-weight:800;font-size:16px;white-space:nowrap}
+.rb-cap span{color:var(--muted);font-family:var(--mono);font-weight:400;font-size:11px;letter-spacing:.06em;text-transform:uppercase;align-self:center}
+@media (max-width:600px){.routebar{margin-top:40px}.routebar text{display:none}.rb-cap{display:flex}}
+.principle{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;margin-top:16px;color:var(--muted);font-size:15px}
+.nowstrip{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0 22px;margin-top:48px;border-top:3px solid var(--ink)}
+.nowstrip div{padding:16px 0 0}
+@media (max-width:1040px){.nowstrip{grid-template-columns:repeat(3,minmax(0,1fr));row-gap:6px}}
+.nowstrip .mono{display:block;color:var(--muted);margin-bottom:4px;font-size:11.5px}
+.nowstrip b{font-family:var(--display);font-weight:800;font-size:17px;line-height:1.25;display:block}
+.nowstrip span.s{display:block;color:var(--muted);font-size:14.5px;line-height:1.45;margin-top:4px}
+@media (max-width:700px){.nowstrip{grid-template-columns:1fr}.nowstrip div{padding:14px 0 0}}
+
+/* ---------- section heads ---------- */
+.sechead{display:flex;justify-content:space-between;align-items:baseline;gap:16px;border-bottom:3px solid var(--ink);padding-bottom:10px;margin-bottom:26px}
+.sechead h2{font-size:30px;font-weight:900;letter-spacing:-.015em}
+
+/* ---------- gantry of exit signs ---------- */
+.work{padding:88px 0 20px}
+.gantry{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:26px 22px}
+@media (max-width:760px){.gantry{grid-template-columns:1fr}}
+.exit{display:block;text-decoration:none;color:var(--sign-ink);position:relative;padding-top:30px;transition:transform .2s}
+.exit:hover{transform:translateY(-3px)}
+.exit .tab{position:absolute;top:0;right:22px;height:36px;padding:7px 14px 0;background:var(--sign);border-radius:8px 8px 0 0;font-family:var(--display);font-weight:800;font-size:14px;letter-spacing:.08em;box-shadow:inset 0 0 0 3px var(--sign),inset 0 0 0 5px var(--sign-ink);clip-path:inset(0 0 6px 0)}
+.exit .panel{position:relative;background:var(--sign);border-radius:12px;padding:24px 26px 22px;min-height:178px;display:flex;flex-direction:column;justify-content:space-between;gap:18px;box-shadow:inset 0 0 0 5px var(--sign),inset 0 0 0 8px var(--sign-ink),var(--shadow)}
+.exit h3{font-size:clamp(26px,3vw,34px);font-weight:800;letter-spacing:-.015em;max-width:15ch}
+.exit p{margin:0;font-family:var(--display);font-weight:600;font-size:16px;line-height:1.35;opacity:.88;max-width:34ch}
+.exit .meta{display:flex;justify-content:space-between;align-items:flex-end;gap:12px}
+.exit .meta .mono{opacity:.8;font-size:11.5px}
+.exit .arrow{width:42px;height:42px;flex:none}
+.exit.detour{color:#141006}
+.exit.detour .tab{background:var(--detour);box-shadow:inset 0 0 0 3px var(--detour),inset 0 0 0 5px #141006}
+.exit.detour .panel{background:var(--detour);box-shadow:inset 0 0 0 5px var(--detour),inset 0 0 0 8px #141006,var(--shadow)}
+
+/* ---------- method ---------- */
+.method{padding:88px 0 10px}
+.mroute{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(8,minmax(0,1fr));position:relative}
+.mroute::before{content:"";position:absolute;left:0;right:0;top:9px;height:6px;border-radius:3px;background:var(--route)}
+.mroute li{position:relative;padding:34px 14px 0 0}
+.mroute li::before{content:"";position:absolute;top:0;left:0;width:24px;height:24px;border-radius:50%;background:var(--paper);border:5px solid var(--route);box-sizing:border-box}
+.mroute li:nth-child(3)::before{background:var(--route)}
+.mroute b{font-family:var(--display);font-weight:800;font-size:17px;display:block;line-height:1.2}
+.mroute span{display:block;color:var(--muted);font-size:14px;line-height:1.45;margin-top:4px}
+.mroute .mono{font-size:11px;color:var(--muted);display:block;margin-bottom:2px}
+@media (max-width:900px){
+  .mroute{grid-template-columns:1fr;gap:16px}
+  .mroute::before{left:9px;right:auto;top:0;bottom:0;width:6px;height:auto}
+  .mroute li{padding:0 0 0 40px}
+}
+
+/* ---------- case study ---------- */
+.case{padding:110px 0 30px}
+.case-head{display:grid;gap:18px;margin-bottom:40px}
+.case-sign{display:inline-flex;align-items:stretch;gap:0;align-self:start;width:max-content;max-width:100%}
+.case-sign .n{background:var(--sign);color:var(--sign-ink);font-family:var(--display);font-weight:900;font-size:15px;letter-spacing:.08em;padding:8px 14px 6px;border-radius:8px;box-shadow:inset 0 0 0 2px var(--sign),inset 0 0 0 4px var(--sign-ink)}
+.case-sign.detour .n{background:var(--detour);color:#141006;box-shadow:inset 0 0 0 2px var(--detour),inset 0 0 0 4px #141006}
+.case h2{font-size:clamp(40px,6.4vw,76px);font-weight:900;letter-spacing:-.035em}
+.case .sub{font-size:clamp(18px,1.8vw,21px);color:var(--muted);max-width:54ch;margin:0;line-height:1.5}
+.facts{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-family:var(--mono);font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;border:1.5px solid var(--line);border-radius:999px;padding:4px 11px;color:var(--muted)}
+.chip b{color:var(--ink);font-weight:600}
+
+.journey{display:grid;grid-template-columns:1fr 1.15fr 1fr;border:1.5px solid var(--line);border-radius:14px;overflow:hidden;background:var(--card);margin-bottom:56px}
+.journey > div{padding:18px 20px;position:relative}
+.journey > div + div{border-left:1.5px solid var(--line)}
+.journey .mono{display:block;color:var(--muted);margin-bottom:6px;font-size:11.5px}
+.journey b{font-family:var(--display);font-weight:800;font-size:19px;line-height:1.25;display:block}
+.journey .f{background:var(--friction-soft)}
+.journey .f .mono{color:var(--friction)}
+@media (max-width:760px){.journey{grid-template-columns:1fr}.journey > div + div{border-left:0;border-top:1.5px solid var(--line)}}
+
+.legs{position:relative}
+.legs::before{content:"";position:absolute;left:8px;top:14px;bottom:30px;width:4px;border-radius:2px;background:linear-gradient(var(--route),var(--route)) top/100% calc(100% - 60px) no-repeat,repeating-linear-gradient(var(--route) 0 6px,transparent 6px 14px)}
+.leg{display:grid;grid-template-columns:190px minmax(0,1fr);gap:28px;padding-bottom:44px}
+.leg-label{position:relative;padding-left:36px;padding-top:2px}
+.leg-label::before{content:"";position:absolute;left:0;top:3px;width:20px;height:20px;border-radius:50%;background:var(--paper);border:4px solid var(--route);box-sizing:border-box}
+.leg.key .leg-label::before{background:var(--route)}
+.leg-label .mono{display:block;color:var(--muted);font-size:11px}
+.leg-label b{font-family:var(--display);font-weight:800;font-size:17px;line-height:1.2;display:block}
+.leg-body{min-width:0}
+.leg-body > p,.leg-body > ul{max-width:64ch}
+.leg-body ul{padding-left:20px;margin:0 0 14px}
+.leg-body li{margin-bottom:7px}
+.leg-body li::marker{color:var(--route)}
+@media (max-width:820px){
+  .legs::before{display:none}
+  .leg{grid-template-columns:1fr;gap:10px;padding-bottom:36px}
+  .leg-label{padding-left:30px}
+}
+
+.insight{font-family:var(--display);font-weight:800;font-size:clamp(25px,3.2vw,36px);line-height:1.15;letter-spacing:-.02em;max-width:24ch;margin:0}
+.insight::before{content:"";display:block;width:56px;height:8px;border-radius:4px;background:var(--route);margin-bottom:16px}
+
+.found{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:20px 22px;margin:0 0 18px;max-width:72ch}
+.found .mono{color:var(--friction);display:flex;align-items:center;gap:8px;margin-bottom:10px;font-size:11.5px}
+.found .mono::before{content:"";width:10px;height:10px;border-radius:2px;background:var(--friction);transform:rotate(45deg)}
+.found ul{margin:0;padding-left:18px}
+.found li{font-size:15.5px;margin-bottom:6px}
+.assume{border-left:4px solid var(--friction);padding:4px 0 4px 16px;font-size:16px;max-width:62ch;margin-top:6px}
+.assume .mono{display:block;color:var(--friction);font-size:11px;margin-bottom:2px}
+
+.scope{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;max-width:880px}
+.scope > div{border:1.5px solid var(--line);border-radius:12px;padding:16px 16px 12px;background:var(--card)}
+.scope > div.now{border:2px solid var(--route)}
+.scope .mono{display:block;color:var(--muted);font-size:11px;margin-bottom:6px}
+.scope .now .mono{color:var(--route)}
+.scope b{font-family:var(--display);font-weight:800;font-size:17px;line-height:1.25;display:block;margin-bottom:6px}
+.scope p{font-size:15px;color:var(--muted);margin:0;line-height:1.5}
+.scope-out{font-size:15px;color:var(--muted);margin-top:12px}
+@media (max-width:760px){.scope{grid-template-columns:1fr}}
+
+.tradeoffs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;max-width:880px}
+.tradeoffs > div{padding:16px;border-top:3px solid var(--friction);background:var(--card);border-radius:0 0 12px 12px}
+.tradeoffs b{font-family:var(--display);font-weight:800;font-size:17px;display:block;margin-bottom:4px}
+.tradeoffs p{font-size:15px;margin:0;color:var(--muted);line-height:1.5}
+@media (max-width:760px){.tradeoffs{grid-template-columns:1fr}}
+
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;max-width:880px}
+.metric{border:1.5px solid var(--line);border-radius:12px;padding:14px 15px;background:var(--card)}
+.metric .mono{display:block;color:var(--muted);font-size:10.5px;margin-bottom:6px}
+.metric b{font-family:var(--display);font-weight:800;font-size:16px;line-height:1.28;display:block}
+.metric.ns{background:var(--route);border-color:var(--route);color:var(--route-ink)}
+.metric.ns .mono{color:var(--route-ink);opacity:.8}
+.metric.guard{border-style:dashed}
+@media (max-width:900px){.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:460px){.metrics{grid-template-columns:1fr}}
+
+.validate{list-style:none;padding:0;margin:0;display:grid;gap:10px;max-width:760px;counter-reset:v}
+.validate li{counter-increment:v;display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:start;margin:0}
+.validate li::before{content:counter(v);width:30px;height:30px;border-radius:7px;background:var(--ink);color:var(--paper);font-family:var(--display);font-weight:900;display:grid;place-items:center;font-size:15px}
+.validate b{font-family:var(--display);font-weight:800}
+.question{font-family:var(--display);font-weight:700;font-size:19px;line-height:1.35;padding:18px 20px;border-radius:12px;background:var(--friction-soft);margin:22px 0 0;max-width:62ch}
+.sources{font-size:14px;color:var(--muted);margin-top:18px;max-width:72ch}
+.sources a{color:var(--muted)}
+
+/* ---------- prototype frame ---------- */
+.proto{border:1.5px solid var(--line);border-radius:18px;background:var(--card);overflow:hidden;box-shadow:var(--shadow)}
+.proto-bar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px 16px;padding:11px 16px;border-bottom:1.5px solid var(--line)}
+.proto-bar .mono{font-size:11px;color:var(--muted)}
+.proto-bar .live{display:inline-flex;align-items:center;gap:8px;color:var(--route)}
+.proto-bar .live::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--route)}
+.proto-note{font-size:14px;color:var(--muted);margin:12px 2px 0;max-width:72ch}
+
+.seg{display:inline-flex;border:1.5px solid var(--line);border-radius:999px;padding:3px;background:var(--paper);gap:2px;flex-wrap:wrap}
+.seg button{border:0;background:transparent;border-radius:999px;padding:6px 12px;font-family:var(--display);font-weight:700;font-size:13.5px;cursor:pointer;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.btn{display:inline-flex;align-items:center;gap:6px;font-family:var(--display);font-weight:800;font-size:14px;padding:9px 15px 8px;border-radius:999px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;line-height:1.1}
+.btn:hover{border-color:var(--ink)}
+.btn.primary{background:var(--route);border-color:var(--route);color:var(--route-ink)}
+.btn.ghost{background:transparent}
+.btn[aria-pressed="true"]{background:var(--route);border-color:var(--route);color:var(--route-ink)}
+.btn.sm{font-size:13px;padding:7px 12px 6px}
+
+/* parking prototype */
+.park{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr)}
+@media (max-width:860px){.park{grid-template-columns:1fr}}
+.park-map{position:relative;background:var(--paper);border-right:1.5px solid var(--line);min-height:320px}
+@media (max-width:860px){.park-map{border-right:0;border-bottom:1.5px solid var(--line)}}
+.park-map svg{width:100%;height:100%;display:block}
+.pm-block{fill:var(--card)}
+.pm-road{stroke:var(--line);stroke-width:12;stroke-linecap:round;fill:none}
+.pm-road.major{stroke-width:18}
+.pm-label{font-family:var(--mono);font-size:8.5px;letter-spacing:.06em;text-transform:uppercase;fill:var(--muted)}
+.pm-drive{fill:none;stroke:var(--route);stroke-width:6;stroke-linecap:round;stroke-linejoin:round}
+.pm-walk{fill:none;stroke:var(--ink);stroke-width:3;stroke-linecap:round;stroke-dasharray:1 7}
+.pm-lot rect{stroke:var(--card);stroke-width:2.5}
+.pm-lot text{font-family:var(--display);font-weight:900;font-size:12px;pointer-events:none}
+.pm-lot{cursor:pointer;transition:opacity .2s}
+.pm-lot.dim{opacity:.5}
+.park-side{padding:18px 18px 16px;display:flex;flex-direction:column;gap:12px}
+.park-side h4{font-size:19px;font-weight:800}
+.park-summary{border-radius:12px;background:var(--route);color:var(--route-ink);padding:14px 16px}
+.park-summary .mono{font-size:10.5px;opacity:.85;display:block;margin-bottom:2px}
+.park-summary b{font-family:var(--display);font-weight:900;font-size:26px;letter-spacing:-.01em;display:block;line-height:1.1}
+.park-summary span{font-family:var(--display);font-weight:600;font-size:14.5px;opacity:.92}
+.controls{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center}
+.controls .mono{font-size:10.5px;color:var(--muted)}
+.lots{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.lots button{width:100%;text-align:left;display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px 12px;border-radius:12px;border:1.5px solid var(--line);background:var(--card);cursor:pointer;font-family:var(--display)}
+.lots button[aria-pressed="true"]{border-color:var(--route);box-shadow:inset 0 0 0 1px var(--route)}
+.lots .pk{width:30px;height:30px;border-radius:7px;display:grid;place-items:center;font-weight:900;font-size:15px}
+.lots .nm{font-weight:800;font-size:15px;line-height:1.25;display:block}
+.lots .src{font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.03em;display:block;margin-top:2px}
+.lots .tm{text-align:right;font-weight:900;font-size:16px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.lots .tm small{display:block;font-family:var(--mono);font-weight:400;font-size:10.5px;color:var(--muted)}
+
+/* meetings prototype */
+.late{display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);gap:0}
+@media (max-width:860px){.late{grid-template-columns:1fr}}
+.late-l{padding:22px;border-right:1.5px solid var(--line);background:var(--paper)}
+@media (max-width:860px){.late-l{border-right:0;border-bottom:1.5px solid var(--line)}}
+.late-r{padding:22px;display:flex;flex-direction:column;gap:14px}
+.who-cap{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;display:block}
+.phone{border-radius:30px;border:1.5px solid var(--line);background:var(--card);padding:14px 14px 18px;max-width:290px;margin:0 auto;box-shadow:var(--shadow)}
+.phone .sb{display:flex;justify-content:space-between;font-family:var(--display);font-weight:800;font-size:13px;padding:2px 8px 12px}
+.notif{border-radius:16px;background:var(--paper);padding:13px 13px 12px;border:1px solid var(--line)}
+.notif .mono{font-size:10px;color:var(--muted);display:block;margin-bottom:4px}
+.notif b{font-family:var(--display);font-weight:800;font-size:15px;line-height:1.3;display:block}
+.notif p{font-size:13.5px;line-height:1.45;margin:4px 0 10px;color:var(--muted)}
+.notif .row{display:flex;flex-wrap:wrap;gap:6px}
+.toast{margin-top:12px;font-family:var(--display);font-weight:600;font-size:13.5px;line-height:1.4;padding:10px 12px;border-radius:12px;background:var(--friction-soft);display:none}
+.toast.show{display:block}
+.laptop{border-radius:14px;border:1.5px solid var(--line);overflow:hidden;background:#121816;color:#e7ebe6;flex:1;display:flex;flex-direction:column;min-height:300px}
+.laptop .tb{display:flex;align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid #2a322e;font-family:var(--display);font-weight:700;font-size:13.5px}
+.laptop .tb i{width:9px;height:9px;border-radius:50%;background:#3a433f}
+.laptop .tb span{margin-left:8px}
+.laptop .tb .clock{margin-left:auto;font-variant-numeric:tabular-nums;color:#9aa49f}
+.stage{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px}
+@media (max-width:520px){.stage{grid-template-columns:1fr}}
+.vt{border-radius:12px;background:#1d2422;position:relative;padding:14px;display:flex;flex-direction:column;justify-content:space-between;min-height:150px}
+.vt .av{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-weight:900;font-size:22px;background:#38b67a;color:#04140c;margin:14px auto 0}
+.vt .av.off{background:#2a322e;color:#7d8782}
+.vt .nm{font-family:var(--display);font-weight:700;font-size:13px}
+.vt .pill{position:absolute;top:10px;right:10px;font-family:var(--mono);font-size:10px;letter-spacing:.04em;text-transform:uppercase;padding:3px 8px;border-radius:999px;background:#2a322e;color:#9aa49f}
+.vt .pill.ok{background:#efb440;color:#141006}
+.waitbox{border-radius:12px;padding:14px 16px;background:#1d2422;border:1px solid #2a322e}
+.waitbox .mono{font-size:10px;color:#9aa49f;display:block;margin-bottom:4px}
+.waitbox b{font-family:var(--display);font-weight:800;font-size:17px;line-height:1.3;display:block}
+.waitbox ul{margin:8px 0 0;padding-left:18px;font-size:14px;color:#9aa49f}
+.waitbox .acts{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.waitbox .acts span{font-family:var(--display);font-weight:700;font-size:12.5px;border:1px solid #3a433f;border-radius:999px;padding:5px 10px}
+.waitbox.ok{border-color:#efb440}
+
+/* share prototype */
+.share-top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;padding:14px 16px;border-bottom:1.5px solid var(--line)}
+.counter{display:flex;gap:18px;font-family:var(--display);font-weight:800}
+.counter span{display:flex;flex-direction:column;line-height:1.1;font-size:22px;font-variant-numeric:tabular-nums}
+.counter small{font-family:var(--mono);font-weight:400;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.meetwin{background:#121816;color:#e7ebe6;position:relative}
+.sstage{height:290px;display:grid;place-items:center;padding:16px;position:relative}
+.sstage .empty{font-family:var(--display);font-weight:700;color:#7d8782;text-align:center}
+.sstage .shared{width:min(520px,100%);height:100%;border-radius:10px;overflow:hidden;background:#f2f3ef;color:#121816;display:flex;flex-direction:column;box-shadow:0 0 0 3px #38b67a}
+.sstage .shared.wrong{box-shadow:0 0 0 3px #e0533d}
+.shared .sh{font-family:var(--mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;padding:6px 10px;background:#dfe3dc;display:flex;justify-content:space-between}
+.shared .bd{flex:1;padding:16px;display:flex;flex-direction:column;gap:10px;font-family:var(--display)}
+.shared h5{margin:0;font-size:22px;font-weight:900;letter-spacing:-.01em}
+.bars{display:flex;align-items:flex-end;gap:10px;flex:1}
+.bars i{flex:1;background:#0d6b45;border-radius:4px 4px 0 0}
+.bars i:nth-child(even){background:#9bc7b0}
+.ctrlbar{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px;padding:12px;border-top:1px solid #2a322e}
+.ctrlbar .btn{background:#1d2422;border-color:#3a433f;color:#e7ebe6}
+.ctrlbar .btn[aria-pressed="true"]{background:#38b67a;border-color:#38b67a;color:#04140c}
+.ctrlbar .btn.stop{background:#e0533d;border-color:#e0533d;color:#fff}
+.picker{position:absolute;inset:16px;background:#f2f3ef;color:#121816;border-radius:12px;padding:16px;display:none;flex-direction:column;gap:10px;box-shadow:0 20px 50px rgba(0,0,0,.5);z-index:2}
+.picker.show{display:flex}
+.picker .ph{display:flex;justify-content:space-between;align-items:center;font-family:var(--display);font-weight:800}
+.picker .ph .mono{font-size:10px;color:#59625e}
+.picker .opts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;overflow:auto}
+.picker .opts button{border:1.5px solid #d6dad4;background:#fff;border-radius:10px;padding:10px;text-align:left;font-family:var(--display);font-weight:700;font-size:13px;cursor:pointer;min-height:58px;color:#121816}
+.picker .opts button:hover{border-color:#0d6b45}
+.picker .foot{display:flex;justify-content:flex-end;gap:8px;margin-top:auto}
+@media (max-width:560px){.picker .opts{grid-template-columns:repeat(2,1fr)}}
+
+/* elevator prototype */
+.lift-top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;padding:14px 16px;border-bottom:1.5px solid var(--line)}
+.lift-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:760px){.lift-grid{grid-template-columns:1fr}}
+.bld{padding:16px 16px 12px}
+.bld + .bld{border-left:1.5px solid var(--line)}
+@media (max-width:760px){.bld + .bld{border-left:0;border-top:1.5px solid var(--line)}}
+.bld-h{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;margin-bottom:10px}
+.bld-h b{font-family:var(--display);font-weight:800;font-size:17px;display:block}
+.bld-h .mono{font-size:10.5px;color:var(--muted)}
+.stat{text-align:right;font-family:var(--display)}
+.stat strong{font-weight:900;font-size:30px;font-variant-numeric:tabular-nums;letter-spacing:-.02em;line-height:1}
+.stat small{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.bld canvas{width:100%;height:330px;display:block}
+.lift-foot{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:center;padding:14px 16px;border-top:1.5px solid var(--line)}
+@media (max-width:760px){.lift-foot{grid-template-columns:1fr}}
+.lobby{display:flex;align-items:center;gap:12px;background:#121816;color:#e7ebe6;border-radius:10px;padding:10px 14px;font-family:var(--display)}
+.lobby .car-id{width:38px;height:38px;border-radius:8px;background:#38b67a;color:#04140c;display:grid;place-items:center;font-weight:900;font-size:20px}
+.lobby b{font-weight:900;font-size:18px;font-variant-numeric:tabular-nums}
+.lobby .mono{font-size:10px;color:#9aa49f;display:block}
+.compare{font-family:var(--display);font-weight:700;font-size:16px}
+.compare em{font-style:normal;color:var(--route)}
+
+/* naps */
+.prd{background:var(--card);border:1.5px solid var(--line);border-radius:8px;padding:28px 30px 26px;box-shadow:var(--shadow);position:relative;max-width:880px}
+.doc-meta{display:grid;grid-template-columns:auto 1fr auto 1fr;gap:4px 16px;font-family:var(--mono);font-size:11.5px;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:18px}
+.doc-meta b{color:var(--ink);font-weight:600}
+@media (max-width:560px){.doc-meta{grid-template-columns:auto 1fr}}
+.prd h4{font-size:28px;font-weight:900;letter-spacing:-.02em;margin-bottom:2px}
+.prd .tl{font-style:italic;color:var(--muted);margin:0 0 18px}
+.prd table{width:100%;border-collapse:collapse;font-size:15px}
+.prd th,.prd td{text-align:left;padding:10px 8px;border-top:1px solid var(--line);vertical-align:top}
+.prd th{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.prd td:first-child{font-family:var(--display);font-weight:800;white-space:nowrap}
+@media (max-width:560px){.prd td:first-child{white-space:normal}}
+.stamp{position:absolute;top:22px;right:24px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;border:2.5px solid var(--friction);color:var(--friction);padding:4px 9px;border-radius:4px;transform:rotate(-6deg)}
+@media (max-width:560px){.stamp{position:static;display:inline-block;margin-bottom:10px}}
+.napcalc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0}
+@media (max-width:760px){.napcalc{grid-template-columns:1fr}}
+.napcalc > div{padding:20px}
+.napcalc > div + div{border-left:1.5px solid var(--line)}
+@media (max-width:760px){.napcalc > div + div{border-left:0;border-top:1.5px solid var(--line)}}
+.napcalc label{font-family:var(--display);font-weight:800;font-size:16px;display:block;margin-bottom:10px}
+.napcalc input[type=range]{width:100%;accent-color:var(--detour)}
+.napcalc .big{font-family:var(--display);font-weight:900;font-size:44px;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
+.napcalc .big small{font-size:18px;font-weight:700;color:var(--muted);margin-left:4px;letter-spacing:0}
+.verdict{font-family:var(--display);font-weight:800;font-size:22px;line-height:1.2;margin-bottom:6px}
+.reason{color:var(--muted);font-size:15px;margin:0 0 14px}
+.autoreply{font-size:14.5px;background:var(--paper);border-radius:10px;padding:12px 14px;border:1px dashed var(--line)}
+.autoreply .mono{font-size:10px;color:var(--muted);display:block;margin-bottom:4px}
+
+/* about */
+.about{padding:110px 0 20px}
+.about-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:56px;align-items:start}
+@media (max-width:860px){.about-grid{grid-template-columns:1fr;gap:28px}}
+.about p{max-width:60ch}
+.timeline{list-style:none;margin:0;padding:0;position:relative}
+.timeline::before{content:"";position:absolute;left:7px;top:8px;bottom:8px;width:3px;background:var(--line);border-radius:2px}
+.timeline li{position:relative;padding:0 0 18px 32px}
+.timeline li::before{content:"";position:absolute;left:0;top:5px;width:17px;height:17px;border-radius:50%;background:var(--paper);border:4px solid var(--route);box-sizing:border-box}
+.timeline li:first-child::before{background:var(--route)}
+.timeline .mono{display:block;color:var(--muted);font-size:11px}
+.timeline b{font-family:var(--display);font-weight:800;font-size:17px;line-height:1.25;display:block}
+.timeline span{color:var(--muted);font-size:15px}
+
+footer{margin-top:100px;background:var(--sign);color:var(--sign-ink)}
+footer .wrap{padding-top:64px;padding-bottom:56px}
+footer .big{font-family:var(--display);font-weight:900;font-size:clamp(34px,5.4vw,64px);letter-spacing:-.035em;line-height:1;max-width:17ch}
+footer .contact{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+footer .contact a,footer .contact span{font-family:var(--display);font-weight:800;font-size:16px;color:var(--sign-ink);text-decoration:none;border:2px solid rgba(255,255,255,.75);border-radius:999px;padding:10px 18px 8px}
+footer .contact a:hover{background:var(--sign-ink);color:var(--sign)}
+footer .note{font-size:14px;opacity:.78;margin-top:36px;max-width:64ch}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top"><i aria-hidden="true"></i>Nidan Basheer</a>
+    <nav class="mono" aria-label="Sections">
+      <a class="hide-sm" href="#work">Work</a>
+      <a class="hide-sm" href="#about">About</a>
+      <a href="#contact">Contact</a>
+      <button class="theme-btn" id="theme-btn" type="button" aria-label="Switch between light and dark">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 1.8a6.2 6.2 0 0 1 0 12.4z" fill="currentColor"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<nav class="rail" aria-label="Page progress">
+  <ol>
+    <li><a href="#top" data-sec="top"><span class="d"></span><span class="l">Start</span></a></li>
+    <li><a href="#parking" data-sec="parking"><span class="d"></span><span class="l">01 Parking</span></a></li>
+    <li><a href="#meetings" data-sec="meetings"><span class="d"></span><span class="l">02 Meetings</span></a></li>
+    <li><a href="#elevators" data-sec="elevators"><span class="d"></span><span class="l">03 Elevators</span></a></li>
+    <li><a href="#naps" data-sec="naps"><span class="d"></span><span class="l">04 Naps</span></a></li>
+    <li><a href="#about" data-sec="about"><span class="d"></span><span class="l">About</span></a></li>
+  </ol>
+</nav>
+
+<main>
+<div class="wrap">
+
+  <!-- ================= HERO ================= -->
+  <section class="hero" id="top" aria-labelledby="hero-title" data-track>
+    <div class="eyebrow mono"><span>Product portfolio</span><span>IIT Madras</span><span>Bengaluru, India</span></div>
+    <h1 id="hero-title">Designing smoother <em>journeys.</em></h1>
+    <p class="lede">I look for the friction between what people intend to do and what they actually manage to do, in cities, in buildings and in meetings, then design the smallest product that closes the gap.</p>
+
+    <div class="routebar" aria-hidden="true">
+      <svg viewBox="0 0 1000 130">
+        <path class="rb-detour" d="M30 66 C 120 66, 150 6, 240 18 S 330 128, 420 112 S 520 4, 600 26 S 690 124, 780 104 S 880 66, 970 66"/>
+        <path class="rb-main" d="M30 66 L 970 66"/>
+        <circle class="rb-stop" cx="30" cy="66" r="15"/>
+        <circle class="rb-stop rb-end" cx="970" cy="66" r="15"/>
+        <text x="30" y="22">Intention</text>
+        <text x="30" y="122" class="big">“I want to get there”</text>
+        <text x="500" y="22" text-anchor="middle" style="fill:var(--friction)">The detour</text>
+        <text x="970" y="22" text-anchor="end">Outcome</text>
+        <text x="970" y="122" text-anchor="end" class="big">“Done”</text>
+      </svg>
+    </div>
+    <div class="rb-cap" aria-hidden="true"><b>“I want to get there”</b><span>the detour</span><b>“Done”</b></div>
+    <div class="principle"><span>Working principle: compress the distance between intention and outcome.</span><span class="mono">4 case studies · 4 working prototypes</span></div>
+
+    <div class="nowstrip">
+      <div><span class="mono">Now</span><b>Associate Manager, Athena Education</b><span class="s">Strategy and go-to-market for student ventures</span></div>
+      <div><span class="mono">Product</span><b>PM Intern, Darwinbox</b><span class="s">Leave management for US enterprise expansion</span></div>
+      <div><span class="mono">Business</span><b>Intern, Tata Sons</b><span class="s">Online-first trivia games for Tata Crucible</span></div>
+      <div><span class="mono">Writing</span><b>Co-author, IIT Madras PM Casebook</b><span class="s">Consulting and PM casebooks, three editions</span></div>
+      <div><span class="mono">Studied</span><b>IIT Madras, Integrated M.A.</b><span class="s">Development Studies, 2021–2026</span></div>
+    </div>
+  </section>
+
+  <!-- ================= WORK ================= -->
+  <section class="work" id="work" aria-labelledby="work-title">
+    <div class="sechead"><h2 id="work-title">Featured work</h2><span class="mono muted">Take an exit</span></div>
+    <div class="gantry">
+      <a class="exit" href="#parking">
+        <span class="tab">EXIT 01</span>
+        <span class="panel">
+          <span><h3>Completing the journey</h3></span>
+          <span class="meta"><p>Parking discovery for the last 500 metres of a drive in Indian cities.</p>
+            <svg class="arrow" viewBox="0 0 42 42" aria-hidden="true"><path d="M12 30 L30 12 M15 12 H30 V27" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </span>
+      </a>
+      <a class="exit" href="#meetings">
+        <span class="tab">EXIT 02</span>
+        <span class="panel">
+          <span><h3>The hidden friction of meetings</h3></span>
+          <span class="meta"><p>Arrival status and prepared sharing for online meetings.</p>
+            <svg class="arrow" viewBox="0 0 42 42" aria-hidden="true"><path d="M12 30 L30 12 M15 12 H30 V27" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </span>
+      </a>
+      <a class="exit" href="#elevators">
+        <span class="tab">EXIT 03</span>
+        <span class="panel">
+          <span><h3>Beyond the elevator</h3></span>
+          <span class="meta"><p>A building’s elevators as one coordinated mobility network.</p>
+            <svg class="arrow" viewBox="0 0 42 42" aria-hidden="true"><path d="M12 30 L30 12 M15 12 H30 V27" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </span>
+      </a>
+      <a class="exit detour" href="#naps">
+        <span class="tab">DETOUR</span>
+        <span class="panel">
+          <span><h3>Google Naps</h3></span>
+          <span class="meta"><p>A highly serious proposal for optimising unconsciousness.</p>
+            <svg class="arrow" viewBox="0 0 42 42" aria-hidden="true"><path d="M12 30 L30 12 M15 12 H30 V27" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ================= METHOD ================= -->
+  <section class="method" aria-labelledby="method-title">
+    <div class="sechead"><h2 id="method-title">Every case follows the same route</h2><span class="mono muted">8 stops</span></div>
+    <ol class="mroute">
+      <li><span class="mono">01</span><b>Observation</b><span>Something I noticed in everyday life.</span></li>
+      <li><span class="mono">02</span><b>Research</b><span>What already exists, and what that changes.</span></li>
+      <li><span class="mono">03</span><b>Insight</b><span>The one sentence the solution rests on.</span></li>
+      <li><span class="mono">04</span><b>Scope</b><span>What ships first, what waits, what’s out.</span></li>
+      <li><span class="mono">05</span><b>Prototype</b><span>A working demo you can try here.</span></li>
+      <li><span class="mono">06</span><b>Trade-offs</b><span>What could go wrong, and the cost.</span></li>
+      <li><span class="mono">07</span><b>Metrics</b><span>How I’d know it worked.</span></li>
+      <li><span class="mono">08</span><b>Validation</b><span>The cheapest next test.</span></li>
+    </ol>
+  </section>
+
+  <!-- ================= CASE 01 PARKING ================= -->
+  <article class="case" id="parking" aria-labelledby="parking-title" data-track>
+    <div class="case-head">
+      <span class="case-sign"><span class="n">EXIT 01</span></span>
+      <h2 id="parking-title">Completing the journey</h2>
+      <p class="sub">Navigation gets a driver to the address. In a dense Indian city, the trip isn’t over until they’ve found somewhere to stop.</p>
+      <div class="facts"><span class="chip"><b>Surface</b> · Navigation</span><span class="chip"><b>Market</b> · Indian metros</span><span class="chip"><b>Type</b> · Concept, desk research</span></div>
+    </div>
+
+    <div class="journey">
+      <div><span class="mono">Intention</span><b>Reach my destination</b></div>
+      <div class="f"><span class="mono">Friction</span><b>No obvious place to park, so I circle</b></div>
+      <div><span class="mono">Outcome</span><b>Park, then walk the last stretch</b></div>
+    </div>
+
+    <div class="legs">
+      <section class="leg">
+        <div class="leg-label"><span class="mono">01</span><b>Observation</b></div>
+        <div class="leg-body">
+          <p>Arriving by car in a busy part of Bengaluru, Chennai or Mumbai often starts a second, unguided trip: 10 to 20 minutes of slow circling. There is usually paid parking nearby, including temporary lots on vacant plots, but drivers find it only by driving past it.</p>
+          <p>For a navigation product this is a broken promise. The arrival time it showed was wrong by however long the search took, and the frustration lands at the very end of the trip, which is the part people remember.</p>
+          <ul>
+            <li><strong>Who feels it most:</strong> drivers visiting unfamiliar neighbourhoods for errands, meetings and events, and weekend visitors to busy commercial streets.</li>
+            <li><strong>Who doesn’t:</strong> regular commuters with a known spot, and ride-hailing passengers.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="leg">
+        <div class="leg-label"><span class="mono">02</span><b>Research</b></div>
+        <div class="leg-body">
+          <p><strong>What I first thought:</strong> add a “Find parking” step to car navigation, so the route becomes current location → parking → destination.</p>
+          <div class="found">
+            <span class="mono">What already exists</span>
+            <ul>
+              <li>In the US, maps apps already let drivers find and book parking near a destination through partners like SpotHero.</li>
+              <li>In India, conversational AI in maps can now answer questions like “is parking available near…”, drawing on public information.</li>
+              <li>Cities have started publishing formal supply: Ahmedabad put 160 municipal parking locations on the map in 2026.</li>
+            </ul>
+          </div>
+          <p>So formal, listed parking is arriving. What is still missing is the supply that makes up much of Indian parking: informal and temporary lots, private plots and the attendant-run lot behind a shop. If a lot isn’t in any dataset, no interface can show it.</p>
+          <div class="assume"><span class="mono">Assumption I’m least sure of</span>Drivers will accept a short detour to a known lot instead of gambling on a spot at the curb.</div>
+        </div>
+      </section>
+
+      <section class="leg key">
+        <div class="leg-label"><span class="mono">03</span><b>Insight</b></div>
+        <div class="leg-body">
+          <p class="insight">Navigation should end at a viable place to stop. In India, the hard part is knowing those places exist.</p>
+        </div>
+      </section>
+
+      <section class="leg">
+        <div class="leg-label"><span class="mono">04</span><b>Scope</b></div>
+        <div class="leg-body">
+          <p>Treat this as a supply problem first and an interface problem second. The first version answers one question: <strong>where does parking exist?</strong></p>
+          <div class="scope">
+            <div class="now"><span class="mono">MVP</span><b>Show where parking exists</b><p>Lots near the destination, ranked by total journey time, price, hours and type. Supply from city feeds, operator self-listing and contributor checks.</p></div>
+            <div><span class="mono">Next</span><b>Park here, then walk</b><p>The route ends at the chosen lot and hands off to walking directions. Freshness checks on price and hours.</p></div>
+            <div><span class="mono">Later</span><b>Predict space</b><p>Estimate the chance of a free space from historical arrival patterns. Reservations where operators support them.</p></div>
+          </div>
+          <p class="scope-out"><strong>Out of scope for the MVP:</strong> real-time availability and in-app payment. Both need operator integrations that informal lots can’t support yet.</p>
+        </div>
+      </section>
+
+      <section class="leg">
+        <div class="leg-label"><span class="mono">05</span><b>Prototype</b></div>
+        <div class="leg-body">
+          <div class="proto">
+            <div class="proto-bar"><span class="mono live">Interactive prototype</span><span class="mono">Illustrative lots and times</span></div>
+            <div class="park">
+              <div class="park-map">
+                <svg viewBox="0 0 400 320" id="pmap" role="img" aria-label="Map of the destination with nearby parking lots and the route to the selected lot">
+                  <rect width="400" height="320" fill="var(--paper)"/>
+                  <g>
+                    <rect class="pm-block" x="72" y="52" width="66" height="86" rx="6"/>
+                    <rect class="pm-block" x="162" y="52" width="66" height="86" rx="6"/>
+                    <rect class="pm-block" x="252" y="52" width="86" height="86" rx="6"/>
+                    <rect class="pm-block" x="72" y="162" width="66" height="116" rx="6"/>
+                    <rect class="pm-block" x="162" y="162" width="66" height="116" rx="6"/>
+                    <rect class="pm-block" x="252" y="162" width="86" height="116" rx="6"/>
+                  </g>
+                  <g>
+                    <path class="pm-road" d="M0 40 H400"/>
+                    <path class="pm-road major" d="M0 150 H400"/>
+                    <path class="pm-road" d="M0 290 H400"/>
+                    <path class="pm-road" d="M60 0 V320"/>
+                    <path class="pm-road" d="M150 0 V320"/>
+                    <path class="pm-road" d="M240 0 V320"/>
+                    <path class="pm-road major" d="M350 0 V320"/>
+                  </g>
+                  <text class="pm-label" x="168" y="146">100 Feet Rd</text>
+                  <text class="pm-label" x="146" y="250" transform="rotate(-90 146 250)">12th Main</text>
+                  <text class="pm-label" x="236" y="268" transform="rotate(-90 236 268)">7th Cross</text>
+                  <text class="pm-label" x="346" y="128" transform="rotate(-90 346 128)">80 Feet Rd</text>
+                  <path id="pm-drive" class="pm-drive" d=""/>
+                  <path id="pm-walk" class="pm-walk" d=""/>
+                  <g id="pm-lots"></g>
+                  <g>
+                    <circle cx="20" cy="290" r="9" fill="var(--paper)" stroke="var(--route)" stroke-width="4"/>
+                    <text class="pm-label" x="12" y="276" style="fill:var(--ink)">You</text>
+                  </g>
+                  <g>
+                    <path d="M240 150 m0 -24 c-8 0 -13 6 -13 12 c0 9 13 20 13 20 s13 -11 13 -20 c0 -6 -5 -12 -13 -12z" fill="var(--ink)"/>
+                    <circle cx="240" cy="138" r="4.5" fill="var(--paper)"/>
+                    <text class="pm-label" x="256" y="122" style="fill:var(--ink);font-weight:600">Café</text>
+                  </g>
+                </svg>
+              </div>
+              <div class="park-side">
+                <h4>Parking near the café, 100 Feet Rd</h4>
+                <div class="park-summary" aria-live="polite">
+                  <span class="mono">Leave 11:20 · arrive at the café</span>
+                  <b id="ps-arrive">11:38</b>
+                  <span id="ps-detail">16 min drive + 2 min walk · ₹40 for 2 h</span>
+                </div>
+                <div class="controls">
+                  <span class="mono">Rank by</span>
+                  <div class="seg" role="group" aria-label="Rank lots by">
+                    <button type="button" data-sort="total" aria-pressed="true">Fastest overall</button>
+                    <button type="button" data-sort="price" aria-pressed="false">Cheapest</button>
+                    <button type="button" data-sort="walk" aria-pressed="false">Shortest walk</button>
+                  </div>
+                </div>
+                <div class="controls">
+                  <span class="mono">Staying</span>
+                  <div class="seg" role="group" aria-label="How long you will stay">
+                    <button type="button" data-hrs="1" aria-pressed="false">1 h</button>
+                    <button type="button" data-hrs="2" aria-pressed="true">2 h</button>
+                    <button type="button" data-hrs="4" aria-pressed="false">4 h</button>
+                  </div>
+                </div>
+                <ul class="lots" id="lot-list"></ul>
+              </div>
+            </div>
+          </div>
+          <p class="proto-note">Try ranking by price: the cheapest option is the attendant-run plot, which today appears in no dataset. That lot is the whole case for operator self-listing.</p>
+        </div>
+      </section>
+
+      <section class="leg">
+        <div class="leg-label"><span class="mono">06</span><b>Trade-offs</b></div>
+        <div class="leg-body">
+          <div class="tradeoffs">
+            <div><b>Freshness</b><p>Temporary lots disappear. Listings need decay and re-verification, or trust collapses after one bad trip.</p></div>
+            <div><b>Herding</b><p>Sending everyone to the same lot fills it. Ranking has to spread demand across nearby options.</p></div>
+            <div><b>Distraction</b><p>Choosing must take one tap and happen before the final turn, never at the curb.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="leg">
+        <div class="leg-label"><span class="mono">07</span><b>Metrics</b></div>
+        <div class="leg-body">
+          <div class="metrics">
+            <div class="metric ns"><span class="mono">North star</span><b>Car trips in pilot areas that end at a suggested lot</b></div>
+            <div class="metric"><span class="mono">Input</span><b>Listed lots per sq km in pilot neighbourhoods</b></div>
+            <div class="metric"><span class="mono">Proxy</span><b>Minutes between reaching the address and the trip ending</b></div>
+            <div class="metric guard"><span class="mono">Guardrail</span><b>“Lot closed or didn’t exist” reports</b></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="leg">
+        <div class="leg-label"><span class="mono">08</span><b>Validation</b></div>
+        <div class="leg-body">
+          <ol class="validate">
+            <li><span><b>Measure the supply gap.</b> Walk 1 km around one busy street and log every paid lot, then compare against what maps show today.</span></li>
+            <li><span><b>Size the pain.</b> Ask 20 drivers arriving there how long they searched and whether they’d have used a listed lot.</span></li>
+            <li><span><b>Test supply.</b> Ask 5 lot operators to self-list with a photo, price and hours. Can they do it in under two minutes?</span></li>
+          </ol>
+          <p class="question">Open question: is a listings network worth building before availability can be predicted, or is “where does parking exist” already enough to shorten the end of the trip?</p>
+          <p class="sources">Desk research: <a href="https://techstory.in/google-maps-gets-major-upgrade-to-simplify-parking-for-millions/">parking booking in Maps, US</a> · <a href="https://www.digit.in/news/apps/google-maps-gets-new-features-in-india-conversational-driving-experience-proactive-traffic-alerts-and-more.html">conversational Maps features in India</a> · <a href="https://deshgujarat.com/2026/07/23/amc-integrates-160-public-parking-locations-in-ahmedabad-with-google-maps/">Ahmedabad parking integration</a></p>
+        </div>
+      </section>
+    </div>
+  </article>
+
+  <!-- ================= CASE 02 MEETINGS ================= -->
+  <article class="case" id="meetings" aria-labelledby="meetings-title" data-track>
+    <div class="case-head">
+      <span class="case-sign"><span class="n">EXIT 02</span></span>
+      <h2 id="meetings-title">The hidden friction of meetings</h2>
+      <p class="sub">Meeting software has optimised the call itself. The small coordination costs around it, like who’s coming, when, and what they’re about to show, are still manual.</p>
+      <div class="facts"><span class="chip"><b>Surface</b> · Video meetings + calendar</span><span class="chip"><b>Type</b> · Concept, desk research</span></div>
+    </div>
+
+    <div class="journey">
+      <div><span class="mono">Intention</span><b>Tell people I’ll be five minutes late</b></div>
+      <div class="f"><span class="mono">Friction</span><b>Find the app, the person, type and send, while rushing</b></div>
+      <div><span class="mono">Outcome</span><b>Everyone knows when to expect me</b></div>
+    </div>
+
+    <div class="legs">
+      <section class="leg">
+        <div class="leg-label"><span class="mono">01</span><b>Observation</b></div>
+        <div class="leg-body">
+          <p>When someone realises they’ll be late, they face two bad options. They can stop and message, which means opening a chat app, finding the person and typing while already in a hurry, so many don’t bother. Or they say nothing, and the other person sits alone in the call asking themselves:</p>
+          <ul>
+            <li>Are they 30 seconds away, or did they forget?</li>
+            <li>Should I wait, or start on something else?</li>
+            <li>Is it rude to leave? Is it rude to message?</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="leg">
+        <div class="leg-label"><span class="mono">02</span><b>Research</b></div>
+        <div class="leg-body">
+          <div class="found">
+            <span class="mono">What already exists</span>
+            <ul>
+              <li>One enterprise meeting tool lets late participants pick how late they’ll be, then lists them in a “running late” section of the roster with that time.</li>
+              <li>A major calendar app’s mobile version can email every attendee a pre-written late notice in a couple of taps.</li>
+              <li>Presenting a doc, sheet or deck straight into a call from the file itself has existed in Google Workspace since 2021.</li>
+            </ul>
+          </div>
+          <p>That reshaped the project. Arrival status is a proven pattern elsewhere, which lowers the risk; the opportunity is doing it with context a calendar already has. Presenting a single file is largely solved, so I narrowed that idea to the remaining gap: switching between several things in one meeting, such as a deck, a dashboard and a live demo.</p>
+          <div class="assume"><span class="mono">Assumption I’m least sure of</span>People will share an expected join time when it costs one tap, even though they skip it when it costs a message.</div>
+        </div>
+      </section>
+
+      <section class="leg key">
+        <div class="leg-label"><span class="mono">03</span><b>Insight</b></div>
+        <div class="leg-body">
+          <p class="insight">The biggest cost of waiting is often the uncertainty, more than the minutes.</p>
+        </div>
+      </section>
+
+      <section class="leg">
+        <div class="leg-label"><span class="mono">04</span><b>Scope</b></div>
+        <div class="leg-body">
+          <div class="scope">
+            <div class="now"><span class="mono">MVP</span><b>One-tap arrival status</b><p>From the meeting link and the calendar notification: 5 min, 10 min or custom. Others see an expected join time.</p></div>
+            <div><span class="mono">Next</span><b>Context-aware prompt</b><p>When your current meeting overruns into the next one, the calendar offers to let the next one know.</p></div>
+            <div><span class="mono">Later</span><b>Travel and sharing</b><p>Navigation offers the same prompt for in-person meetings. A tray of prepared items to share in one tap.</p></div>
+          </div>
+          <p class="scope-out"><strong>Principle:</strong> the system makes communicating easier and never communicates on your behalf. It always asks, “Would you like to let them know?”</p>
+        </div>
+      </section>
+
+      <section class="leg">
+        <div class="leg-label"><span class="mono">05</span><b>Prototype</b></div>
+        <div class="leg-body">
+          <div class="proto">
+            <div class="proto-bar"><span class="mono live">Interactive prototype · arrival status</span><button class="btn sm ghost" type="button" id="late-reset">Reset</button></div>
+            <div class="late">
+              <div class="late-l">
+                <span class="who-cap">Nidan · overrunning in another meeting</span>
+                <div class="phone">
+                  <div class="sb"><span id="ph-clock">2:31</span><span>●●● 5G</span></div>
+                  <div class="notif">
+                    <span class="mono">Calendar · now</span>
+                    <b>Design review is running over</b>
+                    <p>Weekly sync with Aditi started at 2:30. Let her know when you’ll join?</p>
+                    <div class="row" role="group" aria-label="Send arrival status">
+                      <button class="btn sm" type="button" data-late="5">About 5 min</button>
+                      <button class="btn sm" type="button" data-late="10">About 10 min</button>
+                      <button class="btn sm ghost" type="button" data-late="0">Not now</button>
+                    </div>
+                  </div>
+                  <div class="toast" id="late-toast" role="status"></div>
+                </div>
+              </div>
+              <div class="late-r">
+                <span class="who-cap">Aditi · waiting in the call</span>
+                <div class="laptop">
+                  <div class="tb"><i></i><i></i><i></i><span>Weekly sync</span><span class="clock">2:31 pm</span></div>
+                  <div class="stage">
+                    <div class="vt"><span class="pill">You</span><div class="av">A</div><span class="nm">Aditi</span></div>
+                    <div class="vt"><span class="pill" id="n-pill">Not joined</span><div class="av off">N</div><span class="nm">Nidan</span></div>
+                  </div>
+                  <div style="padding:0 12px 12px">
+                    <div class="waitbox" id="waitbox" aria-live="polite">
+                      <span class="mono">You’re the only one here</span>
+                      <b>No word from Nidan yet</b>
+                      <ul><li>Joining in 30 seconds? Forgot?</li><li>Wait, or start something else?</li></ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="proto-note">Tap “About 5 min” and watch Aditi’s side change from questions to a plan. Tap “Not now” to see that nothing is sent without consent.</p>
+
+          <div class="proto" style="margin-top:28px">
+            <div class="proto-bar"><span class="mono live">Interactive prototype · switching what you share</span><span class="mono">Toy windows</span></div>
+            <div class="share-top">
+              <div class="seg" role="group" aria-label="Sharing mode">
+                <button type="button" data-smode="today" aria-pressed="true">Today’s flow</button>
+                <button type="button" data-smode="prepared" aria-pressed="false">Prepared sharing</button>
+              </div>
+              <div class="counter" aria-live="polite">
+                <span id="c-last">0<small>Clicks, last switch</small></span>
+                <span id="c-total">0<small>Clicks in total</small></span>
+                <span id="c-wrong">0<small>Wrong windows</small></span>
+              </div>
+            </div>
+            <div class="meetwin">
+              <div class="sstage" id="sstage"><div class="empty">Nobody is presenting.<br><span style="font-weight:600;font-size:14px">Your task: show the deck, then the dashboard, then the demo.</span></div></div>
+              <div class="picker" id="picker" role="dialog" aria-label="Choose what to share">
+                <div class="ph"><span id="pk-title">Choose what to share</span><span class="mono" id="pk-step">Step 2 of 4</span></div>
+                <div class="opts" id="pk-opts"></div>
+                <div class="foot"><button class="btn sm ghost" type="button" id="pk-cancel" style="color:#121816">Cancel</button></div>
+              </div>
+              <div class="ctrlbar" id="ctrlbar"></div>
+            </div>
+          </div>
+          <p class="proto-note">Do the task in both modes and compare the counters. In today’s flow, six similar windows make it easy to share the wrong one.</p>
+        </div>
+      </section>
+
+      <section class="leg">
+        <div class="leg-label"><span class="mono">06</span><b>Trade-offs</b></div>
+        <div class="leg-body">
+          <div class="tradeoffs">
+            <div><b>Privacy</b><p>Inferring lateness from location or other meetings must be opt-in, and nothing reaches others without a tap.</p></div>
+            <div><b>Social pressure</b><p>A visible “late” label can feel like surveillance. Show an expected join time instead of a mark against the person.</p></div>
+            <div><b>Accuracy</b><p>A wrong time is worse than none. Statuses expire on their own and update in one tap.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="leg">
+        <div class="leg-label"><span class="mono">07</span><b>Metrics</b></div>
+        <div class="leg-body">
+          <div class="metrics">
+            <div class="metric ns"><span class="mono">North star</span><b>Late joins preceded by a status update</b></div>
+            <div class="metric"><span class="mono">Outcome</span><b>Minutes others spend alone in a call with no information</b></div>
+            <div class="metric"><span class="mono">Quality</span><b>Gap between stated and actual join time</b></div>
+            <div class="metric guard"><span class="mono">Guardrail</span><b>Dismiss and opt-out rate of prompts</b></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="leg">
+        <div class="leg-label"><span class="mono">08</span><b>Validation</b></div>
+        <div class="leg-body">
+          <ol class="validate">
+            <li><span><b>Log a week.</b> Track every meeting I attend: who was late, by how much, and whether they told anyone.</span></li>
+            <li><span><b>Ask the waiting side.</b> A five-question survey: the last time someone was late, how long did you wait and what did you do meanwhile?</span></li>
+            <li><span><b>Ship a small version.</b> A browser extension for one team, measuring status use and the gap between stated and actual join times.</span></li>
+          </ol>
+          <p class="question">Open question: how can meeting software reduce the coordination burden created by uncertainty about who is arriving, and when?</p>
+          <p class="sources">Desk research: <a href="https://docs.aws.amazon.com/en_us/chime/latest/ug/mobile-running-late.html">Amazon Chime “Running late”</a> · <a href="https://learn.mandarine.academy/training-resources/tardiness-notification">Outlook mobile late notice</a> · <a href="https://9to5google.com/2021/05/26/google-docs-meet-present/">presenting from Docs, Sheets and Slides, 2021</a></p>
+        </div>
+      </section>
+    </div>
+  </article>
+
+  <!-- ================= CASE 03 ELEVATORS ================= -->
+  <article class="case" id="elevators" aria-labelledby="elevators-title" data-track>
+    <div class="case-head">
+      <span class="case-sign"><span class="n">EXIT 03</span></span>
+      <h2 id="elevators-title">Beyond the elevator</h2>
+      <p class="sub">People don’t care about any one elevator. They care about getting from where they are to where they need to be.</p>
+      <div class="facts"><span class="chip"><b>Surface</b> · Building systems</span><span class="chip"><b>Type</b> · Concept, desk research, toy simulation</span></div>
+    </div>
+
+    <div class="journey">
+      <div><span class="mono">Intention</span><b>Get to the 7th floor</b></div>
+      <div class="f"><span class="mono">Friction</span><b>Waiting, with no idea for how long</b></div>
+      <div><span class="mono">Outcome</span><b>Efficient movement through the building</b></div>
+    </div>
+
+    <div class="legs">
+      <section class="leg">
+        <div class="leg-label"><span class="mono">01</span><b>Observation</b></div>
+        <div class="leg-body">
+          <p>In most office towers, every car seems to respond to button presses on its own. At 9 am the whole bank can be idling upstairs while a crowd builds in the lobby. My first idea was to run the bank as one coordinated network in three layers:</p>
+          <ul>
+            <li><strong>Sensing:</strong> learn origin and destination patterns by time of day: lobby to offices at 9, offices to café at 1, offices to lobby at 6.</li>
+            <li><strong>Intelligence:</strong> predict where demand will appear and park idle cars there in advance, so the bank behaves like a fleet.</li>
+            <li><strong>Communication:</strong> tell people what’s happening: “Take B, arriving in 12 seconds.”</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="leg">
+        <div class="leg-label"><span class="mono">02</span><b>Research</b></div>
+        <div class="leg-body">
+          <div class="found">
+            <span class="mono">What already exists</span>
+            <ul>
+              <li>Elevator makers have patented learning systems that predict peak traffic for dispatching since the late 1980s.</li>
+              <li>Current premium dispatch systems learn traffic patterns and pre-park idle cars where demand is expected; one vendor cites up to 10% lower waits.</li>
+            </ul>
+          </div>
+          <p>Layers one and two are mature engineering inside premium buildings. That moved my focus to layer three, the part passengers actually experience, and to the many ordinary buildings where none of this reaches the person standing at the doors.</p>
+          <div class="assume"><span class="mono">Assumption I’m least sure of</span>Knowing the wait makes it feel shorter, even when the wait itself doesn’t change.</div>
+        </div>
+      </section>
+
+      <section class="leg key">
+        <div class="leg-label"><span class="mono">03</span><b>Insight</b></div>
+        <div class="leg-body">
+          <p class="insight">Reducing uncertainty can be as valuable as reducing the wait.</p>
+          <p style="margin-top:16px">Knowing a car arrives in 45 seconds lets you finish a sentence, grab your coffee and walk over normally instead of hovering by the doors.</p>
+        </div>
+      </section>
+
+      <section class="leg">
+        <div class="leg-label"><span class="mono">04</span><b>Scope</b></div>
+        <div class="leg-body">
+          <div class="scope">
+            <div class="now"><span class="mono">MVP</span><b>Lobby ETA screen</b><p>Which car to take and when it arrives, built on top of the existing controller instead of replacing it.</p></div>
+            <div><span class="mono">Next</span><b>ETA on your phone</b><p>Call a car from your desk or badge as you approach, and see its arrival time before you reach the lobby.</p></div>
+            <div><span class="mono">Later</span><b>Flow data for operators</b><p>Anonymised traffic patterns so facilities teams can schedule pre-parking without a controller upgrade.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="leg">
+        <div class="leg-label"><span class="mono">05</span><b>Prototype</b></div>
+        <div class="leg-body">
+          <div class="proto" id="lift-proto">
+            <div class="proto-bar"><span class="mono live">Live toy simulation</span><span class="mono" id="lift-clock">Simulated 09:00</span></div>
+            <div class="lift-top">
+              <div class="seg" role="group" aria-label="Traffic pattern">
+                <button type="button" data-lmode="morning" aria-pressed="true">Morning</button>
+                <button type="button" data-lmode="lunch" aria-pressed="false">Lunch</button>
+                <button type="button" data-lmode="evening" aria-pressed="false">Evening</button>
+              </div>
+              <div class="controls">
+                <button class="btn sm" type="button" id="lift-play" aria-pressed="false">Pause</button>
+                <div class="seg" role="group" aria-label="Speed">
+                  <button type="button" data-speed="4" aria-pressed="false">4×</button>
+                  <button type="button" data-speed="10" aria-pressed="true">10×</button>
+                  <button type="button" data-speed="25" aria-pressed="false">25×</button>
+                </div>
+              </div>
+            </div>
+            <div class="lift-grid">
+              <div class="bld">
+                <div class="bld-h"><div><b>Each car for itself</b><span class="mono">Idle cars stay where they stop</span></div><div class="stat"><strong id="s0">0.0s</strong><small>Average wait</small></div></div>
+                <canvas id="cv0" aria-label="Building where idle elevators stay put"></canvas>
+              </div>
+              <div class="bld">
+                <div class="bld-h"><div><b>Coordinated fleet</b><span class="mono">Idle cars pre-park by pattern</span></div><div class="stat"><strong id="s1">0.0s</strong><small>Average wait</small></div></div>
+                <canvas id="cv1" aria-label="Building where idle elevators move to predicted demand"></canvas>
+              </div>
+            </div>
+            <div class="lift-foot">
+              <div class="compare" id="lift-compare" aria-live="polite">Both buildings get the same stream of passengers.</div>
+              <div class="lobby" aria-label="Lobby display in the coordinated building">
+                <span class="car-id" id="lobby-car">A</span>
+                <div><span class="mono">Lobby screen · going up</span><b id="lobby-eta">Take A · now</b></div>
+              </div>
+            </div>
+          </div>
+          <p class="proto-note">A simple model I wrote: 10 floors, 3 cars, made-up traffic. Both buildings receive identical passengers and use the same dispatch rule; the only difference is what idle cars do. It shows the mechanism, not real-world numbers. <span id="lift-note">Most trips start at the lobby, so the fleet waits there.</span></p>
+        </div>
+      </section>
+
+      <section class="leg">
+        <div class="leg-label"><span class="mono">06</span><b>Trade-offs</b></div>
+        <div class="leg-body">
+          <div class="tradeoffs">
+            <div><b>Busy hours</b><p>Building the model taught me that pre-parking only helps when cars have idle time. When every car is always busy, it barely matters, so ETAs matter more.</p></div>
+            <div><b>Energy</b><p>Moving empty cars costs power. Pre-park only where predictions are reliable.</p></div>
+            <div><b>Broken promises</b><p>An ETA that slips erodes trust faster than no ETA. Show ranges or update live.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="leg">
+        <div class="leg-label"><span class="mono">07</span><b>Metrics</b></div>
+        <div class="leg-body">
+          <div class="metrics">
+            <div class="metric ns"><span class="mono">North star</span><b>Perceived wait vs actual wait (short survey)</b></div>
+            <div class="metric"><span class="mono">System</span><b>Average and 90th-percentile wait at peak</b></div>
+            <div class="metric"><span class="mono">Adoption</span><b>Riders following the screen’s car suggestion</b></div>
+            <div class="metric guard"><span class="mono">Guardrail</span><b>Energy per trip after pre-parking</b></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="leg">
+        <div class="leg-label"><span class="mono">08</span><b>Validation</b></div>
+        <div class="leg-body">
+          <ol class="validate">
+            <li><span><b>Time real waits.</b> Stand in one office lobby at 9 am and log 50 waits, noting where idle cars were sitting.</span></li>
+            <li><span><b>Test the insight.</b> Ask people what they’d do differently with a 40-second warning. Does knowing change behaviour?</span></li>
+            <li><span><b>Check feasibility.</b> Talk to a facilities manager about what data an existing controller exposes.</span></li>
+          </ol>
+          <p class="question">Open question: how might buildings evolve from collections of elevators into mobility systems that people can see and trust?</p>
+          <p class="sources">Desk research: <a href="https://www.otis.com/en/us/products-services/products/compass-infinity">Otis Compass Infinity</a> · <a href="https://patents.google.com/patent/US5035302">US5035302A, peak-period prediction for dispatching</a> · <a href="https://elevatorworld.com/?p=62669">next-generation dispatching, Elevator World</a></p>
+        </div>
+      </section>
+    </div>
+  </article>
+
+  <!-- ================= CASE 04 NAPS ================= -->
+  <article class="case" id="naps" aria-labelledby="naps-title" data-track>
+    <div class="case-head">
+      <span class="case-sign detour"><span class="n">DETOUR</span></span>
+      <h2 id="naps-title">Google Naps</h2>
+      <p class="sub">The smartest way to do absolutely nothing. A deliberately serious product document for one unmet human need: being tired.</p>
+      <div class="facts"><span class="chip"><b>Type</b> · Satire</span><span class="chip">Not affiliated with Google, obviously</span></div>
+    </div>
+
+    <div class="legs">
+      <section class="leg">
+        <div class="leg-label"><span class="mono">01</span><b>Problem statement</b></div>
+        <div class="leg-body">
+          <div class="prd">
+            <span class="stamp">Approved by nobody</span>
+            <div class="doc-meta"><span>Doc</span><b>PRD v0.3</b><span>Status</span><b>Pending alignment</b><span>Owner</span><b>Nidan Basheer</b><span>Drafted</span><b>Between naps</b></div>
+            <h4>Google Naps</h4>
+            <p class="tl">Despite organising the world’s information, work, communication and travel, the industry has ignored one fundamental question: should I take a nap right now?</p>
+            <table>
+              <thead><tr><th>Feature</th><th>What it does</th></tr></thead>
+              <tbody>
+                <tr><td>Nap Window Detection</td><td>“You have a 42-minute gap before your next meeting. Recommended nap: 26 minutes.”</td></tr>
+                <tr><td>Nap-compatible places</td><td>Surfaces nearby options, ranked: home, an empty meeting room, your car.</td></tr>
+                <tr><td>Auto-responder</td><td>“Nidan is unavailable due to a strategic energy reallocation initiative.”</td></tr>
+                <tr><td>Weekly Synergy Audit</td><td>“This meeting has occurred 47 times. No measurable progress has been detected.” Recommendation: nap instead.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="leg">
+        <div class="leg-label"><span class="mono">02</span><b>Prototype</b></div>
+        <div class="leg-body">
+          <div class="proto">
+            <div class="proto-bar"><span class="mono live">Nap Window Detection · beta</span><span class="mono">Results not reviewed by sleep scientists</span></div>
+            <div class="napcalc">
+              <div>
+                <label for="nap-window">Minutes until your next meeting</label>
+                <div class="big" id="nap-mins">42<small>min</small></div>
+                <input type="range" id="nap-window" min="5" max="150" step="1" value="42">
+                <p class="reason" style="margin-top:14px">Calendar data: “Weekly Synergy Alignment”, recurring, 47th occurrence.</p>
+              </div>
+              <div aria-live="polite">
+                <div class="verdict" id="nap-verdict">Recommended nap: 26 minutes</div>
+                <p class="reason" id="nap-reason">Leaves a 16-minute buffer for re-entry into consciousness and pretending you were reading.</p>
+                <div class="autoreply"><span class="mono">Auto-responder preview</span><span id="nap-reply">Nidan is unavailable until 2:42 due to a strategic energy reallocation initiative.</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="leg">
+        <div class="leg-label"><span class="mono">03</span><b>Metrics</b></div>
+        <div class="leg-body">
+          <div class="metrics">
+            <div class="metric ns"><span class="mono">North star</span><b>Minutes of consciousness avoided</b></div>
+            <div class="metric"><span class="mono">Activation</span><b>Time to horizontal</b></div>
+            <div class="metric"><span class="mono">Retention</span><b>Nap completion rate</b></div>
+            <div class="metric guard"><span class="mono">Guardrail</span><b>Post-nap regret</b></div>
+          </div>
+          <p style="margin-top:18px;max-width:64ch">Applying product craft to an absurd problem is a decent test of the craft. If the framework still holds when the product is a nap, it isn’t decoration. Counter-metric: meetings missed. We are monitoring this closely, after a short rest.</p>
+        </div>
+      </section>
+    </div>
+  </article>
+
+  <!-- ================= ABOUT ================= -->
+  <section class="about" id="about" aria-labelledby="about-title" data-track>
+    <div class="sechead"><h2 id="about-title">About</h2><span class="mono muted">The route so far</span></div>
+    <div class="about-grid">
+      <div>
+        <p style="font-family:var(--display);font-weight:800;font-size:clamp(24px,2.8vw,32px);line-height:1.2;letter-spacing:-.015em;max-width:24ch">I came to product through people problems: who gets stuck where, and why.</p>
+        <p>I studied Development Studies at IIT Madras. At Darwinbox I scoped leave-management features that US enterprise customers needed for compliance. At Tata Sons I helped start a line of online-first business trivia games for Tata Crucible. For three years I researched AI policy at the Centre for Responsible AI, IIT Madras.</p>
+        <p>On campus I led Case Club, the institute’s consulting and product management club, and the humanities placement team. Off the clock I quiz competitively and finished national runner-up at Tata Crucible 2024.</p>
+      </div>
+      <ol class="timeline">
+        <li><span class="mono">Jun 2026 – now</span><b>Associate Manager, Consulting</b><span>Athena Education, Bengaluru</span></li>
+        <li><span class="mono">Jan – Mar 2026</span><b>Product Management Intern</b><span>Darwinbox, Hyderabad</span></li>
+        <li><span class="mono">Jun – Aug 2025</span><b>Intern, Tata Crucible</b><span>Tata Sons, Mumbai</span></li>
+        <li><span class="mono">2023 – 2026</span><b>Research Intern</b><span>Centre for Responsible AI, IIT Madras</span></li>
+        <li><span class="mono">2021 – 2026</span><b>Integrated M.A., Development Studies</b><span>IIT Madras · CGPA 8.43</span></li>
+      </ol>
+    </div>
+  </section>
+
+</div>
+</main>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="big">Let’s talk about the friction you’d remove first.</div>
+    <div class="contact">
+      <a href="mailto:nidanalimp@gmail.com">nidanalimp@gmail.com</a>
+      <span>+91 79074 71158</span>
+      <span>Bengaluru, India</span>
+    </div>
+    <p class="note">These are independent concept studies built from personal observation, public desk research and simple models I wrote. They are not affiliated with or endorsed by any company named. Product and company names are used only to describe existing features.</p>
+  </div>
+</footer>
+
+<script>
+/* Elevator toy simulation. Pure logic, no DOM. Both buildings get the same passenger stream (same seed);
+   they differ only in what idle cars do: stay put, or pre-park where the pattern predicts demand. */
+var SIM = (function(){
+  var FLOORS = 10, SPF = 1.5, DWELL = 3, CARS = 3, EPS = 1e-6;
+
+  function makeRng(seed){
+    return function(){
+      seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+      var t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+      t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+  }
+  function randPair(r){ var a = Math.floor(r() * FLOORS), b; do { b = Math.floor(r() * FLOORS); } while (b === a); return [a, b]; }
+  function upper(r){ return 1 + Math.floor(r() * (FLOORS - 1)); }
+  function office(r){ var f; do { f = upper(r); } while (f === 5); return f; }
+
+  var PATTERNS = {
+    morning: { label: "Morning arrivals", clock: 9 * 60, rate: 0.13, start: [6, 8, 3], park: [0, 0, 0],
+      note: "Most trips start at the lobby, so the fleet waits there.",
+      gen: function(r){ return r() < 0.85 ? [0, upper(r)] : randPair(r); } },
+    lunch: { label: "Lunch rush", clock: 13 * 60, rate: 0.12, start: [0, 3, 7], park: [5, 2, 8], cafe: 5,
+      note: "Trips flow to and from the 5th-floor café, so one car waits there and two cover the office floors.",
+      gen: function(r){ var x = r(); if (x < 0.45) return [office(r), 5]; if (x < 0.9) return [5, office(r)]; return randPair(r); } },
+    evening: { label: "Evening departures", clock: 18 * 60, rate: 0.13, start: [0, 0, 1], park: [7, 4, 2],
+      note: "Trips start on office floors and end at the lobby, so the fleet spreads out upstairs.",
+      gen: function(r){ return r() < 0.85 ? [upper(r), 0] : randPair(r); } }
+  };
+
+  function Building(mode, coordinated, seed){
+    var P = PATTERNS[mode];
+    this.mode = mode; this.coord = coordinated; this.rng = makeRng(seed); this.t = 0;
+    this.cars = [];
+    for (var i = 0; i < CARS; i++) this.cars.push({ id: "ABC"[i], pos: P.start[i], dir: 0, stops: {}, door: 0, riders: [], park: P.park[i] });
+    this.waiting = []; this.served = 0; this.totalWait = 0; this.maxWait = 0;
+    this.nextArr = this.expo();
+  }
+  Building.prototype.expo = function(){ return this.t + (-Math.log(1 - this.rng()) / PATTERNS[this.mode].rate); };
+  Building.prototype.stopList = function(c){ return Object.keys(c.stops).map(Number); };
+
+  Building.prototype.eta = function(c, f){
+    var keys = this.stopList(c), n = keys.length, base = c.door;
+    if (c.dir === 0 || n === 0) return base + Math.abs(c.pos - f) * SPF + n * DWELL;
+    var ahead = c.dir > 0 ? f >= c.pos - EPS : f <= c.pos + EPS;
+    if (ahead){
+      var between = keys.filter(function(k){ return c.dir > 0 ? (k >= c.pos - EPS && k < f) : (k <= c.pos + EPS && k > f); }).length;
+      return base + Math.abs(f - c.pos) * SPF + between * DWELL;
+    }
+    var far = c.dir > 0 ? Math.max.apply(null, keys) : Math.min.apply(null, keys);
+    return base + (Math.abs(far - c.pos) + Math.abs(far - f)) * SPF + n * DWELL;
+  };
+
+  Building.prototype.assign = function(p){
+    var best = null, bc = Infinity, self = this;
+    this.cars.forEach(function(c){ var cost = self.eta(c, p.o); if (cost < bc){ bc = cost; best = c; } });
+    p.car = best; best.stops[p.o] = true;
+  };
+
+  Building.prototype.arrive = function(c, f){
+    var self = this;
+    c.pos = f; delete c.stops[f]; c.door = DWELL;
+    c.riders = c.riders.filter(function(p){ return p.d !== f; });
+    this.waiting = this.waiting.filter(function(p){
+      if (p.car === c && p.o === f){
+        var w = self.t - p.t0; self.served++; self.totalWait += w; if (w > self.maxWait) self.maxWait = w;
+        c.riders.push(p); c.stops[p.d] = true; return false;
+      }
+      return true;
+    });
+  };
+
+  Building.prototype.moveCar = function(c, dt){
+    if (c.door > 0){ c.door = Math.max(0, c.door - dt); return; }
+    var keys = this.stopList(c), target, serving = keys.length > 0;
+    if (serving){
+      if (c.dir !== 0){
+        var anyAhead = keys.some(function(f){ return c.dir > 0 ? f >= c.pos - EPS : f <= c.pos + EPS; });
+        if (!anyAhead) c.dir = 0;
+      }
+      if (c.dir === 0){
+        var nearest = keys.reduce(function(a, b){ return Math.abs(b - c.pos) < Math.abs(a - c.pos) ? b : a; });
+        if (Math.abs(nearest - c.pos) < EPS){ this.arrive(c, nearest); return; }
+        c.dir = nearest > c.pos ? 1 : -1;
+      }
+      var ahead = keys.filter(function(f){ return c.dir > 0 ? f >= c.pos - EPS : f <= c.pos + EPS; });
+      target = c.dir > 0 ? Math.min.apply(null, ahead) : Math.max.apply(null, ahead);
+      if (Math.abs(target - c.pos) < EPS){ this.arrive(c, target); return; }
+    } else if (this.coord && Math.abs(c.park - c.pos) > EPS){
+      target = c.park; c.dir = target > c.pos ? 1 : -1;
+    } else { c.dir = 0; return; }
+    var step = dt / SPF, dist = Math.abs(target - c.pos);
+    if (step >= dist){ c.pos = target; if (serving) this.arrive(c, target); else c.dir = 0; }
+    else c.pos += c.dir * step;
+  };
+
+  Building.prototype.step = function(dt){
+    this.t += dt;
+    while (this.t >= this.nextArr){
+      var pr = PATTERNS[this.mode].gen(this.rng);
+      var p = { o: pr[0], d: pr[1], t0: this.nextArr };
+      this.assign(p); this.waiting.push(p);
+      this.nextArr = this.expo();
+    }
+    for (var i = 0; i < this.cars.length; i++) this.moveCar(this.cars[i], dt);
+  };
+  Building.prototype.avgWait = function(){ return this.served ? this.totalWait / this.served : 0; };
+  Building.prototype.bestTo = function(f){
+    var self = this, best = null, bt = Infinity;
+    this.cars.forEach(function(c){ var e = self.eta(c, f); if (e < bt){ bt = e; best = c; } });
+    return { car: best, eta: bt };
+  };
+
+  return { Building: Building, PATTERNS: PATTERNS, FLOORS: FLOORS, CARS: CARS };
+})();
+if (typeof module !== "undefined") module.exports = SIM;
+
+</script>
+<script>
+(function(){
+  "use strict";
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function $(s, r){ return (r || document).querySelector(s); }
+  function $$(s, r){ return Array.prototype.slice.call((r || document).querySelectorAll(s)); }
+  function css(name){ return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+  function pressGroup(btns, active){ btns.forEach(function(b){ b.setAttribute("aria-pressed", b === active ? "true" : "false"); }); }
+  function fmtTime(totalMin){ var h = Math.floor(totalMin / 60), m = totalMin % 60; var hh = ((h + 11) % 12) + 1; return hh + ":" + (m < 10 ? "0" : "") + m; }
+
+  /* ---------- theme ---------- */
+  var root = document.documentElement;
+  try { var saved = localStorage.getItem("nb-theme"); if (saved) root.setAttribute("data-theme", saved); } catch (e) {}
+  $("#theme-btn").addEventListener("click", function(){
+    var attr = root.getAttribute("data-theme");
+    var dark = attr ? attr === "dark" : (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    var next = dark ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    try { localStorage.setItem("nb-theme", next); } catch (e) {}
+    drawParkingMarkers();
+  });
+
+  /* ---------- progress rail ---------- */
+  var railLinks = $$(".rail a");
+  if ("IntersectionObserver" in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if (en.isIntersecting){
+          var id = en.target.id;
+          railLinks.forEach(function(a){ a.classList.toggle("on", a.getAttribute("data-sec") === id); });
+        }
+      });
+    }, { rootMargin: "-45% 0px -50% 0px" });
+    $$("[data-track]").forEach(function(s){ io.observe(s); });
+  }
+
+  /* ---------- parking ---------- */
+  var LOTS = [
+    { id: "street", name: "Paid street parking, 7th Cross", src: "Contributor-verified · 5 days ago", kind: "street", rate: 20, flat: false, hours: "8 am – 10 pm", drive: 16, walk: 2, x: 240, y: 200,
+      route: "M20 290 L240 290 L240 200", walkPath: "M240 200 L240 160" },
+    { id: "city", name: "Municipal lot, 12th Main", src: "City parking feed · open till 11 pm", kind: "city", rate: 40, flat: false, drive: 16, walk: 4, x: 150, y: 104,
+      route: "M20 290 L60 290 L60 150 L150 150 L150 104", walkPath: "M150 104 L150 150 L228 150" },
+    { id: "mall", name: "Mall basement", src: "Listed business · open 24 h", kind: "mall", rate: 60, flat: false, drive: 15, walk: 9, x: 60, y: 40,
+      route: "M20 290 L60 290 L60 40", walkPath: "M60 40 L240 40 L240 126" },
+    { id: "plot", name: "Open plot with attendant", src: "Listed by operator · checked 2 days ago", kind: "informal", rate: 30, flat: true, drive: 18, walk: 7, x: 350, y: 250,
+      route: "M20 290 L350 290 L350 250", walkPath: "M350 250 L350 150 L252 150" }
+  ];
+  var park = { sort: "total", hrs: 2, sel: "street" };
+  function price(l){ return l.flat ? l.rate : l.rate * park.hrs; }
+  function lotColors(l){
+    if (l.kind === "informal") return { bg: css("--friction"), fg: "#141006" };
+    if (l.kind === "street") return { bg: css("--card"), fg: css("--route"), stroke: css("--route") };
+    return { bg: css("--route"), fg: css("--route-ink") };
+  }
+  function sorted(){
+    var arr = LOTS.slice();
+    arr.sort(function(a, b){
+      if (park.sort === "price") return price(a) - price(b) || (a.drive + a.walk) - (b.drive + b.walk);
+      if (park.sort === "walk") return a.walk - b.walk;
+      return (a.drive + a.walk) - (b.drive + b.walk) || price(a) - price(b);
+    });
+    return arr;
+  }
+  function drawParkingMarkers(){
+    var g = $("#pm-lots"); if (!g) return;
+    var ns = "http://www.w3.org/2000/svg";
+    g.innerHTML = "";
+    LOTS.forEach(function(l){
+      var c = lotColors(l), on = l.id === park.sel, s = on ? 30 : 22;
+      var grp = document.createElementNS(ns, "g");
+      grp.setAttribute("class", "pm-lot" + (on ? "" : " dim"));
+      grp.setAttribute("role", "button"); grp.setAttribute("tabindex", "0");
+      grp.setAttribute("aria-label", "Select " + l.name);
+      if (on){
+        var ring = document.createElementNS(ns, "circle");
+        ring.setAttribute("cx", l.x); ring.setAttribute("cy", l.y); ring.setAttribute("r", 24);
+        ring.setAttribute("fill", "none"); ring.setAttribute("stroke", css("--route")); ring.setAttribute("stroke-width", "2"); ring.setAttribute("opacity", ".45");
+        grp.appendChild(ring);
+      }
+      var r = document.createElementNS(ns, "rect");
+      r.setAttribute("x", l.x - s / 2); r.setAttribute("y", l.y - s / 2); r.setAttribute("width", s); r.setAttribute("height", s); r.setAttribute("rx", 6);
+      r.setAttribute("fill", c.bg); if (c.stroke){ r.style.stroke = c.stroke; }
+      var t = document.createElementNS(ns, "text");
+      t.setAttribute("x", l.x); t.setAttribute("y", l.y + (on ? 5.5 : 4.5)); t.setAttribute("text-anchor", "middle"); t.setAttribute("fill", c.fg);
+      t.style.fontSize = on ? "16px" : "12px"; t.textContent = "P";
+      grp.appendChild(r); grp.appendChild(t);
+      function pick(){ park.sel = l.id; renderParking(true); }
+      grp.addEventListener("click", pick);
+      grp.addEventListener("keydown", function(e){ if (e.key === "Enter" || e.key === " "){ e.preventDefault(); pick(); } });
+      g.appendChild(grp);
+    });
+  }
+  function animatePath(el, d){
+    el.setAttribute("d", d);
+    if (reduce || !el.getTotalLength) { el.style.strokeDashoffset = ""; return; }
+    var len = el.getTotalLength();
+    var walk = el.id === "pm-walk";
+    el.style.transition = "none";
+    if (walk){ el.style.opacity = "0"; void el.getBoundingClientRect(); el.style.transition = "opacity .4s .5s"; el.style.opacity = "1"; return; }
+    el.style.strokeDasharray = len; el.style.strokeDashoffset = len;
+    void el.getBoundingClientRect();
+    el.style.transition = "stroke-dashoffset .7s cubic-bezier(.6,.05,.2,1)";
+    el.style.strokeDashoffset = "0";
+  }
+  function renderParking(animate){
+    var list = $("#lot-list"), arr = sorted();
+    list.innerHTML = "";
+    arr.forEach(function(l){
+      var c = lotColors(l);
+      var li = document.createElement("li");
+      var b = document.createElement("button");
+      b.type = "button"; b.setAttribute("aria-pressed", l.id === park.sel ? "true" : "false");
+      b.innerHTML = '<span class="pk" style="background:' + c.bg + ';color:' + c.fg + (c.stroke ? ';box-shadow:inset 0 0 0 2px ' + c.stroke : '') + '">P</span>' +
+        '<span><span class="nm"></span><span class="src"></span></span>' +
+        '<span class="tm">' + (l.drive + l.walk) + ' min<small>₹' + price(l) + ' · ' + l.walk + ' min walk</small></span>';
+      b.querySelector(".nm").textContent = l.name;
+      b.querySelector(".src").textContent = l.src;
+      b.addEventListener("click", function(){ park.sel = l.id; renderParking(true); });
+      li.appendChild(b); list.appendChild(li);
+    });
+    var sel = LOTS.filter(function(l){ return l.id === park.sel; })[0];
+    $("#ps-arrive").textContent = fmtTime(11 * 60 + 20 + sel.drive + sel.walk);
+    $("#ps-detail").textContent = sel.drive + " min drive + " + sel.walk + " min walk · ₹" + price(sel) + " for " + park.hrs + " h";
+    var drive = $("#pm-drive"), walk = $("#pm-walk");
+    if (animate){ animatePath(drive, sel.route); animatePath(walk, sel.walkPath); }
+    else { drive.setAttribute("d", sel.route); walk.setAttribute("d", sel.walkPath); }
+    drawParkingMarkers();
+  }
+  var sortBtns = $$("[data-sort]"), hrsBtns = $$("[data-hrs]");
+  sortBtns.forEach(function(b){ b.addEventListener("click", function(){ pressGroup(sortBtns, b); park.sort = b.getAttribute("data-sort"); park.sel = sorted()[0].id; renderParking(true); }); });
+  hrsBtns.forEach(function(b){ b.addEventListener("click", function(){ pressGroup(hrsBtns, b); park.hrs = +b.getAttribute("data-hrs"); if (park.sort === "price") park.sel = sorted()[0].id; renderParking(park.sort === "price"); }); });
+  renderParking(false);
+
+  /* ---------- running late ---------- */
+  var waitbox = $("#waitbox"), pill = $("#n-pill"), toast = $("#late-toast");
+  var waitDefault = waitbox.innerHTML;
+  $$("[data-late]").forEach(function(b){
+    b.addEventListener("click", function(){
+      var m = +b.getAttribute("data-late");
+      if (!m){
+        toast.textContent = "Nothing was sent. Aditi still sees no update, and the calendar never messages anyone for you.";
+        toast.classList.add("show");
+        waitbox.innerHTML = waitDefault; waitbox.classList.remove("ok");
+        pill.textContent = "Not joined"; pill.classList.remove("ok");
+        return;
+      }
+      var at = fmtTime(14 * 60 + 31 + m);
+      toast.textContent = "Sent. Aditi sees you expect to join at " + at + ". It updates or expires on its own.";
+      toast.classList.add("show");
+      pill.textContent = "Joining ~" + at; pill.classList.add("ok");
+      waitbox.classList.add("ok");
+      waitbox.innerHTML = '<span class="mono">Update from Nidan · just now</span><b>Nidan expects to join at ' + at + ' (about ' + m + ' min)</b>' +
+        '<div class="acts"><span>Review the agenda</span><span>Reply to one email</span><span>Start without Nidan</span></div>';
+    });
+  });
+  $("#late-reset").addEventListener("click", function(){
+    toast.classList.remove("show"); waitbox.innerHTML = waitDefault; waitbox.classList.remove("ok");
+    pill.textContent = "Not joined"; pill.classList.remove("ok");
+  });
+
+  /* ---------- prepared sharing ---------- */
+  var ITEMS = {
+    deck: { label: "Q3 review deck", win: "Q3 review – Slides", body: '<h5>Q3 review</h5><div class="bars"><i style="height:40%"></i><i style="height:55%"></i><i style="height:48%"></i><i style="height:72%"></i><i style="height:86%"></i></div>' },
+    dash: { label: "Sales dashboard", win: "Sales dashboard – Analytics", body: '<h5>Sales, this week</h5><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px"><div style="background:#dfe3dc;border-radius:8px;padding:10px"><b style="font-size:22px">₹4.2L</b><br><small>Revenue</small></div><div style="background:#dfe3dc;border-radius:8px;padding:10px"><b style="font-size:22px">318</b><br><small>Orders</small></div><div style="background:#dfe3dc;border-radius:8px;padding:10px"><b style="font-size:22px">2.4%</b><br><small>Conversion</small></div></div><div class="bars"><i style="height:30%"></i><i style="height:42%"></i><i style="height:38%"></i><i style="height:51%"></i><i style="height:47%"></i><i style="height:63%"></i><i style="height:70%"></i></div>' },
+    demo: { label: "Live demo", win: "Demo – localhost:3000", body: '<h5>App demo</h5><div style="flex:1;border:2px dashed #9bc7b0;border-radius:8px;display:grid;place-items:center;font-weight:700;color:#59625e">Your product, running live</div>' }
+  };
+  var DISTRACTORS = ["Inbox – Mail", "Notes – personal", "Calendar"];
+  var share = { mode: "today", current: null, last: 0, total: 0, wrong: 0, inFlow: 0 };
+  var stage = $("#sstage"), bar = $("#ctrlbar"), picker = $("#picker");
+  var emptyStage = stage.innerHTML;
+  function updCounter(){
+    $("#c-last").firstChild.nodeValue = share.last;
+    $("#c-total").firstChild.nodeValue = share.total;
+    $("#c-wrong").firstChild.nodeValue = share.wrong;
+  }
+  function click(){ share.total++; share.inFlow++; updCounter(); }
+  function showOnStage(key, winName){
+    if (!key){ stage.innerHTML = emptyStage; share.current = null; renderBar(); return; }
+    var wrong = !ITEMS[key];
+    var html = '<div class="shared' + (wrong ? " wrong" : "") + '"><div class="sh"><span>Sharing: ' + (wrong ? winName : ITEMS[key].win) + '</span><span>' + (wrong ? "Oops, wrong window" : "Everyone can see this") + '</span></div><div class="bd">' +
+      (wrong ? '<h5>' + winName + '</h5><div style="color:#59625e">Everyone in the call can now see this window.</div>' : ITEMS[key].body) + '</div></div>';
+    stage.innerHTML = html; share.current = key; renderBar();
+  }
+  function finishSwitch(){ share.last = share.inFlow; share.inFlow = 0; updCounter(); }
+  function renderBar(){
+    bar.innerHTML = "";
+    if (share.mode === "today"){
+      var p = document.createElement("button"); p.type = "button"; p.className = "btn sm"; p.textContent = share.current ? "Present something else" : "Present now";
+      p.addEventListener("click", function(){ click(); openPicker(1); });
+      bar.appendChild(p);
+    } else {
+      Object.keys(ITEMS).forEach(function(k){
+        var b = document.createElement("button"); b.type = "button"; b.className = "btn sm";
+        b.setAttribute("aria-pressed", share.current === k ? "true" : "false");
+        b.textContent = ITEMS[k].label;
+        b.addEventListener("click", function(){
+          click();
+          if (share.current === k){ showOnStage(null); } else { showOnStage(k); }
+          finishSwitch();
+        });
+        bar.appendChild(b);
+      });
+    }
+    if (share.current){
+      var s = document.createElement("button"); s.type = "button"; s.className = "btn sm stop"; s.textContent = "Stop presenting";
+      s.addEventListener("click", function(){ click(); showOnStage(null); finishSwitch(); });
+      bar.appendChild(s);
+    }
+  }
+  function openPicker(step){
+    var opts = $("#pk-opts"); opts.innerHTML = "";
+    picker.classList.add("show");
+    if (step === 1){
+      $("#pk-title").textContent = "What do you want to present?"; $("#pk-step").textContent = "Step 2 of 4";
+      ["Your entire screen", "A window", "A tab"].forEach(function(t){
+        var b = document.createElement("button"); b.type = "button"; b.textContent = t;
+        b.addEventListener("click", function(){ click(); openPicker(2); });
+        opts.appendChild(b);
+      });
+    } else if (step === 2){
+      $("#pk-title").textContent = "Choose a window"; $("#pk-step").textContent = "Step 3 of 4";
+      var wins = [ITEMS.dash.win, DISTRACTORS[0], ITEMS.demo.win, DISTRACTORS[1], ITEMS.deck.win, DISTRACTORS[2]];
+      wins.forEach(function(w){
+        var b = document.createElement("button"); b.type = "button"; b.textContent = w;
+        b.addEventListener("click", function(){ click(); openPicker({ win: w }); });
+        opts.appendChild(b);
+      });
+    } else {
+      $("#pk-title").textContent = "Share “" + step.win + "”?"; $("#pk-step").textContent = "Step 4 of 4";
+      var go = document.createElement("button"); go.type = "button";
+      go.style.cssText = "grid-column:1/-1;background:#0d6b45;color:#fff;border-color:#0d6b45;text-align:center;font-size:15px";
+      go.textContent = "Share";
+      go.addEventListener("click", function(){
+        click();
+        picker.classList.remove("show");
+        var key = null;
+        Object.keys(ITEMS).forEach(function(k){ if (ITEMS[k].win === step.win) key = k; });
+        if (!key){ share.wrong++; showOnStage("x", step.win); } else showOnStage(key);
+        finishSwitch();
+      });
+      opts.appendChild(go);
+    }
+    var first = opts.querySelector("button"); if (first) first.focus({ preventScroll: true });
+  }
+  $("#pk-cancel").addEventListener("click", function(){ click(); picker.classList.remove("show"); finishSwitch(); });
+  var smodeBtns = $$("[data-smode]");
+  smodeBtns.forEach(function(b){
+    b.addEventListener("click", function(){
+      pressGroup(smodeBtns, b); share.mode = b.getAttribute("data-smode");
+      share.last = share.total = share.wrong = share.inFlow = 0; updCounter();
+      picker.classList.remove("show"); showOnStage(null);
+    });
+  });
+  renderBar();
+
+  /* ---------- elevators ---------- */
+  var lift = { mode: "morning", speed: 10, playing: !reduce, b: [], visible: false, last: 0, acc: 0 };
+  var cvs = [$("#cv0"), $("#cv1")];
+  var playBtn = $("#lift-play");
+  function liftReset(){
+    lift.b = [new SIM.Building(lift.mode, false, 20261110), new SIM.Building(lift.mode, true, 20261110)];
+    $("#lift-note").textContent = SIM.PATTERNS[lift.mode].note;
+    drawLift(); updLiftStats();
+  }
+  function sizeCanvas(cv){
+    var dpr = window.devicePixelRatio || 1, w = cv.clientWidth, h = cv.clientHeight;
+    if (cv.width !== Math.round(w * dpr) || cv.height !== Math.round(h * dpr)){ cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr); }
+    var ctx = cv.getContext("2d"); ctx.setTransform(dpr, 0, 0, dpr, 0, 0); return { ctx: ctx, w: w, h: h };
+  }
+  function rr(ctx, x, y, w, h, r){ ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r); ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath(); }
+  function drawLift(){
+    var col = { ink: css("--ink"), muted: css("--muted"), line: css("--line"), route: css("--route"), routeInk: css("--route-ink"), fr: css("--friction"), card: css("--card"), paper: css("--paper") };
+    lift.b.forEach(function(B, idx){
+      var cv = cvs[idx]; if (!cv) return;
+      var S = sizeCanvas(cv), ctx = S.ctx, W = S.w, H = S.h;
+      ctx.clearRect(0, 0, W, H);
+      var F = SIM.FLOORS, top = 6, bot = 6, fh = (H - top - bot) / F, left = 44;
+      var shaftW = Math.min(40, (W - left - 110) / 3 - 10), gap = 10, sx = left;
+      var qx = sx + 3 * (shaftW + gap) + 8;
+      var P = SIM.PATTERNS[lift.mode];
+      for (var f = 0; f < F; f++){
+        var y = top + (F - 1 - f) * fh;
+        ctx.strokeStyle = col.line; ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(left - 6, y + fh); ctx.lineTo(W - 4, y + fh); ctx.stroke();
+        ctx.fillStyle = col.muted; ctx.font = "600 11px 'Overpass Mono', monospace"; ctx.textAlign = "right"; ctx.textBaseline = "middle";
+        var lab = f === 0 ? "L" : String(f);
+        if (P.cafe === f) lab = "Café";
+        ctx.fillText(lab, left - 10, y + fh / 2);
+      }
+      for (var s = 0; s < 3; s++){
+        var x = sx + s * (shaftW + gap);
+        ctx.fillStyle = col.paper; rr(ctx, x, top, shaftW, F * fh, 6); ctx.fill();
+        ctx.strokeStyle = col.line; ctx.lineWidth = 1; rr(ctx, x, top, shaftW, F * fh, 6); ctx.stroke();
+        if (B.coord){
+          var pf = B.cars[s].park, py = top + (F - 1 - pf) * fh;
+          ctx.strokeStyle = col.route; ctx.globalAlpha = .45; ctx.setLineDash([3, 3]); ctx.lineWidth = 1.5;
+          rr(ctx, x + 3, py + 3, shaftW - 6, fh - 6, 5); ctx.stroke(); ctx.setLineDash([]); ctx.globalAlpha = 1;
+        }
+      }
+      var counts = {}; B.waiting.forEach(function(p){ counts[p.o] = (counts[p.o] || 0) + 1; });
+      Object.keys(counts).forEach(function(k){
+        var f = +k, n = counts[k], y = top + (F - 1 - f) * fh + fh / 2;
+        var maxDots = Math.max(1, Math.floor((W - qx - 26) / 9));
+        ctx.fillStyle = col.fr;
+        for (var i = 0; i < Math.min(n, maxDots); i++){ ctx.beginPath(); ctx.arc(qx + 4 + i * 9, y, 3.4, 0, Math.PI * 2); ctx.fill(); }
+        if (n > maxDots){ ctx.font = "600 10px 'Overpass Mono', monospace"; ctx.textAlign = "left"; ctx.fillText("+" + (n - maxDots), qx + 4 + maxDots * 9, y); }
+      });
+      B.cars.forEach(function(c, s){
+        var x = sx + s * (shaftW + gap), y = top + (F - 1 - c.pos) * fh;
+        var busy = Object.keys(c.stops).length > 0 || c.riders.length > 0;
+        ctx.fillStyle = busy || c.dir !== 0 ? col.route : col.ink;
+        rr(ctx, x + 3, y + 3, shaftW - 6, fh - 6, 5); ctx.fill();
+        if (c.door > 0){ ctx.strokeStyle = col.fr; ctx.lineWidth = 2.5; rr(ctx, x + 3, y + 3, shaftW - 6, fh - 6, 5); ctx.stroke(); }
+        ctx.fillStyle = busy || c.dir !== 0 ? col.routeInk : col.paper;
+        ctx.font = "900 12px Overpass, sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+        ctx.fillText(c.riders.length ? c.id + "·" + c.riders.length : c.id, x + shaftW / 2, y + fh / 2 + 1);
+      });
+    });
+  }
+  function updLiftStats(){
+    var a = lift.b[0], c = lift.b[1];
+    $("#s0").textContent = a.avgWait().toFixed(1) + "s";
+    $("#s1").textContent = c.avgWait().toFixed(1) + "s";
+    var mins = SIM.PATTERNS[lift.mode].clock + Math.floor(a.t / 60);
+    var hh = Math.floor(mins / 60), mm = mins % 60;
+    $("#lift-clock").textContent = "Simulated " + (hh < 10 ? "0" : "") + hh + ":" + (mm < 10 ? "0" : "") + mm;
+    var cmp = $("#lift-compare");
+    if (a.served >= 25 && a.avgWait() > 0){
+      var pct = Math.round((1 - c.avgWait() / a.avgWait()) * 100);
+      cmp.innerHTML = pct > 0
+        ? "After " + c.served + " riders, the coordinated fleet’s average wait is <em>" + pct + "% shorter</em>."
+        : "After " + c.served + " riders, the two buildings are about even. Pre-parking helps little in this pattern.";
+    } else cmp.textContent = "Both buildings get the same stream of passengers. Warming up…";
+    var best = c.bestTo(0), eta = Math.round(best.eta);
+    $("#lobby-car").textContent = best.car.id;
+    $("#lobby-eta").textContent = "Take " + best.car.id + " · " + (eta <= 1 ? "now" : eta + " s");
+  }
+  function liftFrame(ts){
+    if (!lift.last) lift.last = ts;
+    var dt = Math.min(0.1, (ts - lift.last) / 1000); lift.last = ts;
+    if (lift.playing && lift.visible){
+      lift.acc += dt * lift.speed;
+      var steps = 0;
+      while (lift.acc >= 0.25 && steps < 400){ lift.b[0].step(0.25); lift.b[1].step(0.25); lift.acc -= 0.25; steps++; }
+      if (lift.b[0].t > 3600){ liftReset(); }
+      drawLift(); updLiftStats();
+    }
+    requestAnimationFrame(liftFrame);
+  }
+  var lmodeBtns = $$("[data-lmode]"), speedBtns = $$("[data-speed]");
+  lmodeBtns.forEach(function(b){ b.addEventListener("click", function(){ pressGroup(lmodeBtns, b); lift.mode = b.getAttribute("data-lmode"); liftReset(); }); });
+  speedBtns.forEach(function(b){ b.addEventListener("click", function(){ pressGroup(speedBtns, b); lift.speed = +b.getAttribute("data-speed"); }); });
+  function setPlay(on){ lift.playing = on; playBtn.textContent = on ? "Pause" : "Play"; playBtn.setAttribute("aria-pressed", on ? "false" : "true"); }
+  playBtn.addEventListener("click", function(){ setPlay(!lift.playing); });
+  setPlay(lift.playing);
+  if ("IntersectionObserver" in window){
+    new IntersectionObserver(function(es){ es.forEach(function(e){ lift.visible = e.isIntersecting; }); }, { threshold: 0.1 }).observe($("#lift-proto"));
+  } else lift.visible = true;
+  window.addEventListener("resize", drawLift);
+  liftReset();
+  requestAnimationFrame(liftFrame);
+
+  /* ---------- naps ---------- */
+  var nap = $("#nap-window");
+  function renderNap(){
+    var w = +nap.value, verdict, reason, end;
+    $("#nap-mins").firstChild.nodeValue = w;
+    if (w < 12){ verdict = "Recommended: strategic blink (90 seconds)"; reason = "Window too short for a compliant nap. Consider staring at a wall with intent."; end = 2; }
+    else if (w < 35){ var n = w - 8; verdict = "Recommended nap: " + n + " minutes"; reason = "Leaves an 8-minute buffer to re-enter consciousness and find the meeting link."; end = n; }
+    else if (w < 95){ verdict = "Recommended nap: 26 minutes"; reason = "Leaves a " + (w - 26) + "-minute buffer for re-entry into consciousness and pretending you were reading."; end = 26; }
+    else { verdict = "Recommended: full sleep cycle (90 minutes)"; reason = "Window exceeds nap thresholds. Escalating to the Weekly Synergy Audit, which recommends declining the meeting."; end = 90; }
+    $("#nap-verdict").textContent = verdict;
+    $("#nap-reason").textContent = reason;
+    $("#nap-reply").textContent = "Nidan is unavailable until " + fmtTime(14 * 60 + 16 + end) + " due to a strategic energy reallocation initiative.";
+  }
+  nap.addEventListener("input", renderNap);
+  renderNap();
+})();
+</script>
+</body>
+</html>
